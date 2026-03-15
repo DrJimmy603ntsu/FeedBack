@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>文獻閱讀反思問卷</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --line: #d8e0ea;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: #e8f0ff;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Noto Sans TC","Microsoft JhengHei",Arial,sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .wrap { max-width: 980px; margin: 32px auto; padding: 0 20px 40px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 8px 24px rgba(15,23,42,.06); overflow: hidden; }
+    .hero { padding: 28px 28px 18px; background: linear-gradient(135deg,#eff6ff,#fff); border-bottom: 1px solid var(--line); }
+    h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.25; }
+    .subtitle { margin: 0; color: var(--muted); font-size: 15px; }
+    form { padding: 26px; }
+    .section { border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-bottom: 18px; background: #fff; }
+    .section > h2 { margin: 0 0 10px; font-size: 20px; }
+    .hint { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px 22px; }
+    .grid-1 { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    label.title { font-weight: 700; font-size: 15px; }
+    input[type="text"], textarea {
+      width: 100%; border: 1px solid var(--line); border-radius: 12px;
+      padding: 12px 14px; font-size: 15px; outline: none; background: #fff;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+    input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(37,99,235,.12); }
+
+    /* top-level choices */
+    .choices { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px 18px; margin-top: 10px; }
+    .choice-wrap { border: 1px solid var(--line); border-radius: 12px; background: #fafcff; overflow: hidden; }
+    .choice-label { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; cursor: pointer; }
+    .choice-label input[type="checkbox"] { margin-top: 3px; transform: scale(1.05); flex-shrink: 0; }
+
+    /* sub-level */
+    .sub { display: none; border-top: 1px solid var(--line); padding: 10px 12px 12px 32px; background: #f4f8ff; }
+    .sub.open { display: block; }
+    .sub-hint { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
+    .sub-choices { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px 14px; }
+    .sub-choice { display: flex; align-items: center; gap: 8px; font-size: 14px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; cursor: pointer; }
+    .sub-choice input { transform: scale(1.0); flex-shrink: 0; }
+    .sub-other { margin-top: 8px; display: grid; grid-template-columns: 60px 1fr; gap: 8px; align-items: center; font-size: 14px; }
+
+    .inline-other { margin-top: 10px; display: grid; grid-template-columns: 100px 1fr; gap: 10px; align-items: center; }
+    .actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 22px; flex-wrap: wrap; }
+    button { border: 0; border-radius: 12px; padding: 12px 18px; font-size: 15px; cursor: pointer; }
+    .primary { background: var(--accent); color: #fff; }
+    .secondary { background: #eef2f7; color: var(--text); }
+    .footer-note { margin-top: 16px; color: var(--muted); font-size: 13px; text-align: center; }
+
+    /* summary modal */
+    .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 100; align-items: center; justify-content: center; }
+    .modal-bg.open { display: flex; }
+    .modal { background: #fff; border-radius: 18px; max-width: 700px; width: 92%; max-height: 85vh; overflow-y: auto; padding: 28px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+    .modal h2 { margin: 0 0 16px; font-size: 22px; }
+    .modal-body { font-size: 15px; line-height: 1.8; white-space: pre-wrap; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+    .loading { color: var(--muted); font-size: 15px; }
+
+    @media (max-width: 768px) {
+      .grid, .choices, .sub-choices { grid-template-columns: 1fr; }
+      .inline-other, .sub-other { grid-template-columns: 1fr; }
+      h1 { font-size: 24px; }
+      form { padding: 18px; }
+      .hero { padding: 22px 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="hero">
+      <h1>文獻閱讀反思問卷</h1>
+      <p class="subtitle">適用對象：體育大學碩士班學生｜主題示例：Dutch Famine（胎兒期營養與成年健康）</p>
+    </div>
+
+    <form id="mainForm">
+      <!-- 基本資料 -->
+      <div class="section">
+        <h2>基本資料</h2>
+        <div class="grid">
+          <div class="field">
+            <label class="title" for="name">姓名</label>
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <input id="name" name="name" type="text" placeholder="請輸入姓名" style="flex:1;min-width:120px;" oninput="updateNamePreview()" />
+              <label style="display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);white-space:nowrap;cursor:pointer;">
+                <input type="checkbox" id="hideName" onchange="updateNamePreview()" style="transform:scale(1.1);" />
+                隱藏中間字
+              </label>
+            </div>
+            <div id="namePreview" style="font-size:13px;color:var(--muted);min-height:18px;"></div>
+          </div>
+        </div>
+        <div class="grid-1" style="margin-top:14px;">
+          <div class="field">
+            <label class="title" for="article">閱讀文獻名稱／文章連結</label>
+            <input id="article" name="article" type="text" value="https://drjimmy603ntsu.github.io/DeutchFamine/" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 一、啟示 -->
+      <div class="section">
+        <h2>一、文獻帶來的啟示</h2>
+        <p class="hint">閱讀完這篇文獻後，對你產生了哪些啟發？選取後請進一步選擇具體內容。</p>
+        <div class="choices">
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="insight" value="運動訓練與表現" onchange="toggleSub(this,'sub-insight-1')" />運動訓練與表現上的啟示</label>
+            <div id="sub-insight-1" class="sub">
+              <p class="sub-hint">具體啟示（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="insight_1" value="早期發育影響運動潛能" />早期發育影響運動潛能</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_1" value="營養對肌肉發展的長遠效應" />營養對肌肉發展的長遠效應</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_1" value="訓練週期需考量個體發育史" />訓練週期需考量個體發育史</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_1" value="恢復策略與代謝健康的關聯" />恢復策略與代謝健康的關聯</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="insight_1_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="insight" value="健康管理與疾病預防" onchange="toggleSub(this,'sub-insight-2')" />健康管理與疾病預防上的啟示</label>
+            <div id="sub-insight-2" class="sub">
+              <p class="sub-hint">具體啟示（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="insight_2" value="胎兒期環境影響成年疾病風險" />胎兒期環境影響成年疾病風險</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_2" value="代謝症候群的早期預防重要性" />代謝症候群的早期預防重要性</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_2" value="生命早期介入可降低慢性病風險" />生命早期介入可降低慢性病風險</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_2" value="心血管健康需從源頭管理" />心血管健康需從源頭管理</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="insight_2_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="insight" value="教學與運動指導" onchange="toggleSub(this,'sub-insight-3')" />教學與運動指導上的啟示</label>
+            <div id="sub-insight-3" class="sub">
+              <p class="sub-hint">具體啟示（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="insight_3" value="指導時需重視學生背景差異" />指導時需重視學生背景差異</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_3" value="健康教育應納入生命歷程觀點" />健康教育應納入生命歷程觀點</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_3" value="個別化訓練計畫的必要性" />個別化訓練計畫的必要性</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_3" value="家庭與環境因素對學習的影響" />家庭與環境因素對學習的影響</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="insight_3_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="insight" value="研究方法與學術思考" onchange="toggleSub(this,'sub-insight-4')" />研究方法與學術思考上的啟示</label>
+            <div id="sub-insight-4" class="sub">
+              <p class="sub-hint">具體啟示（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="insight_4" value="自然實驗的設計優勢" />自然實驗的設計優勢</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_4" value="縱貫性研究的重要性" />縱貫性研究的重要性</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_4" value="環境變量的控制與解釋" />環境變量的控制與解釋</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_4" value="跨學科研究思維的應用" />跨學科研究思維的應用</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="insight_4_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="insight" value="生命歷程與長期健康觀" onchange="toggleSub(this,'sub-insight-5')" />生命歷程與長期健康觀上的啟示</label>
+            <div id="sub-insight-5" class="sub">
+              <p class="sub-hint">具體啟示（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="insight_5" value="DOHaD 假說的核心概念" />DOHaD 假說的核心概念</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_5" value="表觀遺傳對健康的影響" />表觀遺傳對健康的影響</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_5" value="早期環境決定晚年健康軌跡" />早期環境決定晚年健康軌跡</label>
+                <label class="sub-choice"><input type="checkbox" name="insight_5" value="跨世代健康影響的觀察" />跨世代健康影響的觀察</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="insight_5_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="insight" value="其他" onchange="toggleSub(this,'sub-insight-6')" />其他</label>
+            <div id="sub-insight-6" class="sub">
+              <div class="sub-other" style="grid-template-columns:1fr"><input type="text" name="insight_other" placeholder="請說明其他啟示" /></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 二、摘要 -->
+      <div class="section">
+        <h2>二、文獻重點摘要</h2>
+        <p class="hint">請選出你認為最重要的觀點面向，並補充說明。</p>
+        <div class="choices">
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="summary" value="研究背景與動機" onchange="toggleSub(this,'sub-sum-1')" />研究背景與動機</label>
+            <div id="sub-sum-1" class="sub">
+              <p class="sub-hint">具體內容（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="sum_1" value="荷蘭飢荒作為自然實驗背景" />荷蘭飢荒作為自然實驗背景</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_1" value="孕期營養不足的健康議題" />孕期營養不足的健康議題</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_1" value="DOHaD 理論框架的建立" />DOHaD 理論框架的建立</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_1" value="早期研究的缺口與動機" />早期研究的缺口與動機</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="sum_1_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="summary" value="研究方法" onchange="toggleSub(this,'sub-sum-2')" />研究方法</label>
+            <div id="sub-sum-2" class="sub">
+              <p class="sub-hint">具體內容（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="sum_2" value="自然實驗設計" />自然實驗設計</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_2" value="世代追蹤研究方法" />世代追蹤研究方法</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_2" value="暴露分組與比較" />暴露分組與比較</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_2" value="生物標記與健康指標收集" />生物標記與健康指標收集</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="sum_2_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="summary" value="主要研究發現" onchange="toggleSub(this,'sub-sum-3')" />主要研究發現</label>
+            <div id="sub-sum-3" class="sub">
+              <p class="sub-hint">具體內容（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="sum_3" value="孕早期暴露影響代謝疾病風險" />孕早期暴露影響代謝疾病風險</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_3" value="孕晚期暴露影響出生體重與成長" />孕晚期暴露影響出生體重與成長</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_3" value="心理健康問題的跨世代影響" />心理健康問題的跨世代影響</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_3" value="心血管疾病風險的上升" />心血管疾病風險的上升</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="sum_3_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="summary" value="結論與意涵" onchange="toggleSub(this,'sub-sum-4')" />結論與意涵</label>
+            <div id="sub-sum-4" class="sub">
+              <p class="sub-hint">具體內容（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="sum_4" value="生命早期是健康干預的關鍵窗口" />生命早期是健康干預的關鍵窗口</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_4" value="政策層面的母嬰健康重要性" />政策層面的母嬰健康重要性</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_4" value="表觀遺傳機制的角色" />表觀遺傳機制的角色</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_4" value="未來研究方向的建議" />未來研究方向的建議</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="sum_4_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="summary" value="研究限制" onchange="toggleSub(this,'sub-sum-5')" />研究限制</label>
+            <div id="sub-sum-5" class="sub">
+              <p class="sub-hint">具體內容（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="sum_5" value="無法完全排除混淆因素" />無法完全排除混淆因素</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_5" value="樣本代表性的局限" />樣本代表性的局限</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_5" value="因果關係推論的挑戰" />因果關係推論的挑戰</label>
+                <label class="sub-choice"><input type="checkbox" name="sum_5" value="資料收集年代的限制" />資料收集年代的限制</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="sum_5_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="summary" value="其他" onchange="toggleSub(this,'sub-sum-6')" />其他</label>
+            <div id="sub-sum-6" class="sub">
+              <div class="sub-other" style="grid-template-columns:1fr"><input type="text" name="summary_other" placeholder="請補充其他重點" /></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 三、應用 -->
+      <div class="section">
+        <h2>三、可應用的具體內容</h2>
+        <p class="hint">文獻中的哪些概念、方法或發現，可以應用在你的專業或生活中？</p>
+        <div class="choices">
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="apply" value="運動訓練設計" onchange="toggleSub(this,'sub-app-1')" />運動訓練設計</label>
+            <div id="sub-app-1" class="sub">
+              <p class="sub-hint">具體應用（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="app_1" value="制定個別化訓練計畫" />制定個別化訓練計畫</label>
+                <label class="sub-choice"><input type="checkbox" name="app_1" value="加入早期發育史評估" />加入早期發育史評估</label>
+                <label class="sub-choice"><input type="checkbox" name="app_1" value="重視恢復與代謝健康監控" />重視恢復與代謝健康監控</label>
+                <label class="sub-choice"><input type="checkbox" name="app_1" value="調整負荷以符合個體特質" />調整負荷以符合個體特質</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="app_1_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="apply" value="健康管理與監測" onchange="toggleSub(this,'sub-app-2')" />健康管理與監測</label>
+            <div id="sub-app-2" class="sub">
+              <p class="sub-hint">具體應用（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="app_2" value="定期追蹤代謝指標" />定期追蹤代謝指標</label>
+                <label class="sub-choice"><input type="checkbox" name="app_2" value="早期篩檢慢性病風險" />早期篩檢慢性病風險</label>
+                <label class="sub-choice"><input type="checkbox" name="app_2" value="納入生命早期資訊於健康評估" />納入生命早期資訊於健康評估</label>
+                <label class="sub-choice"><input type="checkbox" name="app_2" value="建立預防性健康管理計畫" />建立預防性健康管理計畫</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="app_2_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="apply" value="教學與健康教育" onchange="toggleSub(this,'sub-app-3')" />教學與健康教育</label>
+            <div id="sub-app-3" class="sub">
+              <p class="sub-hint">具體應用（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="app_3" value="課程中加入生命歷程健康觀" />課程中加入生命歷程健康觀</label>
+                <label class="sub-choice"><input type="checkbox" name="app_3" value="引導學生思考早期環境影響" />引導學生思考早期環境影響</label>
+                <label class="sub-choice"><input type="checkbox" name="app_3" value="設計以預防為核心的教學內容" />設計以預防為核心的教學內容</label>
+                <label class="sub-choice"><input type="checkbox" name="app_3" value="提升學生對母嬰健康的認識" />提升學生對母嬰健康的認識</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="app_3_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="apply" value="研究設計與方法" onchange="toggleSub(this,'sub-app-4')" />研究設計與方法</label>
+            <div id="sub-app-4" class="sub">
+              <p class="sub-hint">具體應用（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="app_4" value="採用自然實驗思維設計研究" />採用自然實驗思維設計研究</label>
+                <label class="sub-choice"><input type="checkbox" name="app_4" value="引入縱貫性追蹤設計" />引入縱貫性追蹤設計</label>
+                <label class="sub-choice"><input type="checkbox" name="app_4" value="加強混淆因素控制策略" />加強混淆因素控制策略</label>
+                <label class="sub-choice"><input type="checkbox" name="app_4" value="跨學科合作研究的規劃" />跨學科合作研究的規劃</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="app_4_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="apply" value="日常生活與自我照護" onchange="toggleSub(this,'sub-app-5')" />日常生活與自我照護</label>
+            <div id="sub-app-5" class="sub">
+              <p class="sub-hint">具體應用（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="app_5" value="重視飲食均衡與營養攝取" />重視飲食均衡與營養攝取</label>
+                <label class="sub-choice"><input type="checkbox" name="app_5" value="提升對慢性病預防的自我意識" />提升對慢性病預防的自我意識</label>
+                <label class="sub-choice"><input type="checkbox" name="app_5" value="建立規律健康檢查習慣" />建立規律健康檢查習慣</label>
+                <label class="sub-choice"><input type="checkbox" name="app_5" value="關注睡眠與壓力管理" />關注睡眠與壓力管理</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="app_5_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="apply" value="其他" onchange="toggleSub(this,'sub-app-6')" />其他</label>
+            <div id="sub-app-6" class="sub">
+              <div class="sub-other" style="grid-template-columns:1fr"><input type="text" name="apply_other" placeholder="請補充其他應用方向" /></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 四、改變 -->
+      <div class="section">
+        <h2>四、可能改變的方向</h2>
+        <p class="hint">閱讀此文獻後，你認為自己可能會調整或改變的方向有哪些？</p>
+        <div class="choices">
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="change" value="訓練方式" onchange="toggleSub(this,'sub-chg-1')" />訓練方式</label>
+            <div id="sub-chg-1" class="sub">
+              <p class="sub-hint">具體改變（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="chg_1" value="更注重個別化訓練處方" />更注重個別化訓練處方</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_1" value="納入長期健康風險評估" />納入長期健康風險評估</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_1" value="調整高強度訓練的頻率" />調整高強度訓練的頻率</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_1" value="重視恢復與休息的比重" />重視恢復與休息的比重</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="chg_1_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="change" value="健康習慣" onchange="toggleSub(this,'sub-chg-2')" />健康習慣</label>
+            <div id="sub-chg-2" class="sub">
+              <p class="sub-hint">具體改變（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="chg_2" value="改善日常飲食品質" />改善日常飲食品質</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_2" value="規律進行健康檢查" />規律進行健康檢查</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_2" value="加強睡眠管理" />加強睡眠管理</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_2" value="減少高風險行為" />減少高風險行為</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="chg_2_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="change" value="學習方式" onchange="toggleSub(this,'sub-chg-3')" />學習方式</label>
+            <div id="sub-chg-3" class="sub">
+              <p class="sub-hint">具體改變（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="chg_3" value="增加跨領域文獻閱讀" />增加跨領域文獻閱讀</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_3" value="培養批判性閱讀習慣" />培養批判性閱讀習慣</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_3" value="主動參與學術討論" />主動參與學術討論</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_3" value="建立系統性筆記方法" />建立系統性筆記方法</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="chg_3_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="change" value="研究方向" onchange="toggleSub(this,'sub-chg-4')" />研究方向</label>
+            <div id="sub-chg-4" class="sub">
+              <p class="sub-hint">具體改變（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="chg_4" value="將 DOHaD 觀點納入論文" />將 DOHaD 觀點納入論文</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_4" value="探討早期環境與運動表現關係" />探討早期環境與運動表現關係</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_4" value="採用縱貫性設計規劃研究" />採用縱貫性設計規劃研究</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_4" value="與其他學科合作跨域研究" />與其他學科合作跨域研究</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="chg_4_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="change" value="教學策略" onchange="toggleSub(this,'sub-chg-5')" />教學策略</label>
+            <div id="sub-chg-5" class="sub">
+              <p class="sub-hint">具體改變（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="chg_5" value="在課程中融入生命歷程健康觀" />在課程中融入生命歷程健康觀</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_5" value="加強學生對預防醫學的認識" />加強學生對預防醫學的認識</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_5" value="引導學生進行文獻批判閱讀" />引導學生進行文獻批判閱讀</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_5" value="設計更具個別差異考量的教學" />設計更具個別差異考量的教學</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="chg_5_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="change" value="生活型態" onchange="toggleSub(this,'sub-chg-6')" />生活型態</label>
+            <div id="sub-chg-6" class="sub">
+              <p class="sub-hint">具體改變（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="chg_6" value="更重視壓力管理與身心平衡" />更重視壓力管理與身心平衡</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_6" value="規律運動並監控身體指標" />規律運動並監控身體指標</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_6" value="提升對未來家庭健康的重視" />提升對未來家庭健康的重視</label>
+                <label class="sub-choice"><input type="checkbox" name="chg_6" value="調整工作與休息的比例" />調整工作與休息的比例</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="chg_6_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 五、行動計畫 -->
+      <div class="section">
+        <h2>五、未來行動計畫</h2>
+        <p class="hint">請選出你打算採取的行動方向，並補充具體內容。</p>
+        <div class="choices">
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="action" value="延伸閱讀" onchange="toggleSub(this,'sub-act-1')" />延伸閱讀</label>
+            <div id="sub-act-1" class="sub">
+              <p class="sub-hint">具體行動（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="act_1" value="閱讀 DOHaD 相關研究 2 篇" />閱讀 DOHaD 相關研究 2 篇</label>
+                <label class="sub-choice"><input type="checkbox" name="act_1" value="搜尋表觀遺傳與運動的文獻" />搜尋表觀遺傳與運動的文獻</label>
+                <label class="sub-choice"><input type="checkbox" name="act_1" value="閱讀相關系統性回顧文章" />閱讀相關系統性回顧文章</label>
+                <label class="sub-choice"><input type="checkbox" name="act_1" value="建立文獻管理資料庫" />建立文獻管理資料庫</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="act_1_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="action" value="學術應用" onchange="toggleSub(this,'sub-act-2')" />學術應用</label>
+            <div id="sub-act-2" class="sub">
+              <p class="sub-hint">具體行動（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="act_2" value="在課程報告中加入生命歷程觀點" />在課程報告中加入生命歷程觀點</label>
+                <label class="sub-choice"><input type="checkbox" name="act_2" value="將文獻概念整合進論文架構" />將文獻概念整合進論文架構</label>
+                <label class="sub-choice"><input type="checkbox" name="act_2" value="與指導教授討論研究方向" />與指導教授討論研究方向</label>
+                <label class="sub-choice"><input type="checkbox" name="act_2" value="參加相關學術研討會" />參加相關學術研討會</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="act_2_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="action" value="實務應用" onchange="toggleSub(this,'sub-act-3')" />實務應用</label>
+            <div id="sub-act-3" class="sub">
+              <p class="sub-hint">具體行動（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="act_3" value="在指導學生時加入健康史評估" />在指導學生時加入健康史評估</label>
+                <label class="sub-choice"><input type="checkbox" name="act_3" value="調整訓練計畫設計方式" />調整訓練計畫設計方式</label>
+                <label class="sub-choice"><input type="checkbox" name="act_3" value="設計預防為主的健康教育課程" />設計預防為主的健康教育課程</label>
+                <label class="sub-choice"><input type="checkbox" name="act_3" value="建立個案健康追蹤機制" />建立個案健康追蹤機制</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="act_3_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="action" value="自我健康管理" onchange="toggleSub(this,'sub-act-4')" />自我健康管理</label>
+            <div id="sub-act-4" class="sub">
+              <p class="sub-hint">具體行動（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="act_4" value="安排健康檢查並追蹤代謝指標" />安排健康檢查並追蹤代謝指標</label>
+                <label class="sub-choice"><input type="checkbox" name="act_4" value="調整飲食結構與營養攝取" />調整飲食結構與營養攝取</label>
+                <label class="sub-choice"><input type="checkbox" name="act_4" value="建立規律睡眠與壓力管理習慣" />建立規律睡眠與壓力管理習慣</label>
+                <label class="sub-choice"><input type="checkbox" name="act_4" value="記錄個人健康數據變化" />記錄個人健康數據變化</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="act_4_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="action" value="分享與傳播" onchange="toggleSub(this,'sub-act-5')" />分享與傳播</label>
+            <div id="sub-act-5" class="sub">
+              <p class="sub-hint">具體行動（可複選）</p>
+              <div class="sub-choices">
+                <label class="sub-choice"><input type="checkbox" name="act_5" value="向同學或同事分享文獻重點" />向同學或同事分享文獻重點</label>
+                <label class="sub-choice"><input type="checkbox" name="act_5" value="在課堂討論中提出本文觀點" />在課堂討論中提出本文觀點</label>
+                <label class="sub-choice"><input type="checkbox" name="act_5" value="撰寫讀書心得或部落格文章" />撰寫讀書心得或部落格文章</label>
+                <label class="sub-choice"><input type="checkbox" name="act_5" value="推薦給相關領域的朋友閱讀" />推薦給相關領域的朋友閱讀</label>
+              </div>
+              <div class="sub-other"><label>其他</label><input type="text" name="act_5_other" placeholder="請補充" /></div>
+            </div>
+          </div>
+
+          <div class="choice-wrap">
+            <label class="choice-label"><input type="checkbox" name="action" value="其他" onchange="toggleSub(this,'sub-act-6')" />其他</label>
+            <div id="sub-act-6" class="sub">
+              <div class="sub-other" style="grid-template-columns:1fr"><input type="text" name="action_other" placeholder="請補充其他行動計畫" /></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="reset" class="secondary" onclick="resetForm()">清除內容</button>
+        <button type="button" class="primary" onclick="generateSummary()">📋 摘要生成</button>
+      </div>
+      <div class="footer-note">本表單為 HTML 單頁版本，可直接於瀏覽器開啟、填寫，並生成個人反思摘要。</div>
+    </form>
+  </div>
+</div>
+
+<!-- Summary Modal -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal">
+    <h2>📄 個人反思摘要</h2>
+    <div class="modal-body" id="modalBody"><span class="loading">摘要生成中，請稍候…</span></div>
+    <div class="modal-actions">
+      <button class="secondary" onclick="copyText()">複製文字</button>
+      <button class="primary" onclick="document.getElementById('modalBg').classList.remove('open')">關閉</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function getMaskedName() {
+  const n = getVal('name');
+  if (!n || n.length < 2) return n;
+  if (n.length === 2) return n[0] + 'O';
+  const mid = Math.floor(n.length / 2);
+  return n.slice(0, mid) + 'O'.repeat(n.length - mid * 2 || 1) + n.slice(mid + (n.length - mid * 2 || 1));
+}
+function updateNamePreview() {
+  const cb = document.getElementById('hideName');
+  const preview = document.getElementById('namePreview');
+  if (cb.checked && getVal('name')) {
+    preview.textContent = '顯示為：' + getMaskedName();
+  } else {
+    preview.textContent = '';
+  }
+}
+function getDisplayName() {
+  return document.getElementById('hideName').checked ? getMaskedName() : (getVal('name') || '（未填寫）');
+}
+function toggleSub(cb, id) {
+  const el = document.getElementById(id);
+  if (cb.checked) el.classList.add('open');
+  else { el.classList.remove('open'); el.querySelectorAll('input').forEach(i => { if(i.type==='checkbox') i.checked=false; else i.value=''; }); }
+}
+
+function resetForm() {
+  document.querySelectorAll('.sub').forEach(s => { s.classList.remove('open'); s.querySelectorAll('input').forEach(i => { if(i.type==='checkbox') i.checked=false; else i.value=''; }); });
+}
+
+function getChecked(name) {
+  return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i => i.value);
+}
+function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function getTextVal(name) { const el = document.querySelector(`input[name="${name}"]`); return el ? el.value.trim() : ''; }
+
+function collectData() {
+  const name = getDisplayName();
+  const article = getVal('article') || '（未填寫）';
+
+  const sections = [
+    { title: '一、文獻帶來的啟示', items: [
+      { top: '運動訓練與表現', subs: getChecked('insight_1'), other: getTextVal('insight_1_other') },
+      { top: '健康管理與疾病預防', subs: getChecked('insight_2'), other: getTextVal('insight_2_other') },
+      { top: '教學與運動指導', subs: getChecked('insight_3'), other: getTextVal('insight_3_other') },
+      { top: '研究方法與學術思考', subs: getChecked('insight_4'), other: getTextVal('insight_4_other') },
+      { top: '生命歷程與長期健康觀', subs: getChecked('insight_5'), other: getTextVal('insight_5_other') },
+    ], other: getTextVal('insight_other'), topChecked: getChecked('insight') },
+    { title: '二、文獻重點摘要', items: [
+      { top: '研究背景與動機', subs: getChecked('sum_1'), other: getTextVal('sum_1_other') },
+      { top: '研究方法', subs: getChecked('sum_2'), other: getTextVal('sum_2_other') },
+      { top: '主要研究發現', subs: getChecked('sum_3'), other: getTextVal('sum_3_other') },
+      { top: '結論與意涵', subs: getChecked('sum_4'), other: getTextVal('sum_4_other') },
+      { top: '研究限制', subs: getChecked('sum_5'), other: getTextVal('sum_5_other') },
+    ], other: getTextVal('summary_other'), topChecked: getChecked('summary') },
+    { title: '三、可應用的具體內容', items: [
+      { top: '運動訓練設計', subs: getChecked('app_1'), other: getTextVal('app_1_other') },
+      { top: '健康管理與監測', subs: getChecked('app_2'), other: getTextVal('app_2_other') },
+      { top: '教學與健康教育', subs: getChecked('app_3'), other: getTextVal('app_3_other') },
+      { top: '研究設計與方法', subs: getChecked('app_4'), other: getTextVal('app_4_other') },
+      { top: '日常生活與自我照護', subs: getChecked('app_5'), other: getTextVal('app_5_other') },
+    ], other: getTextVal('apply_other'), topChecked: getChecked('apply') },
+    { title: '四、可能改變的方向', items: [
+      { top: '訓練方式', subs: getChecked('chg_1'), other: getTextVal('chg_1_other') },
+      { top: '健康習慣', subs: getChecked('chg_2'), other: getTextVal('chg_2_other') },
+      { top: '學習方式', subs: getChecked('chg_3'), other: getTextVal('chg_3_other') },
+      { top: '研究方向', subs: getChecked('chg_4'), other: getTextVal('chg_4_other') },
+      { top: '教學策略', subs: getChecked('chg_5'), other: getTextVal('chg_5_other') },
+      { top: '生活型態', subs: getChecked('chg_6'), other: getTextVal('chg_6_other') },
+    ], other: '', topChecked: getChecked('change') },
+    { title: '五、未來行動計畫', items: [
+      { top: '延伸閱讀', subs: getChecked('act_1'), other: getTextVal('act_1_other') },
+      { top: '學術應用', subs: getChecked('act_2'), other: getTextVal('act_2_other') },
+      { top: '實務應用', subs: getChecked('act_3'), other: getTextVal('act_3_other') },
+      { top: '自我健康管理', subs: getChecked('act_4'), other: getTextVal('act_4_other') },
+      { top: '分享與傳播', subs: getChecked('act_5'), other: getTextVal('act_5_other') },
+    ], other: getTextVal('action_other'), topChecked: getChecked('action') },
+  ];
+
+  let txt = `姓名：${name}\n閱讀文獻：${article}\n\n`;
+  sections.forEach(sec => {
+    const relevant = sec.items.filter(it => sec.topChecked.includes(it.top));
+    if (!relevant.length && !sec.other) return;
+    txt += `【${sec.title}】\n`;
+    relevant.forEach(it => {
+      txt += `・${it.top}`;
+      const allSubs = [...it.subs, ...(it.other ? [`其他：${it.other}`] : [])];
+      if (allSubs.length) txt += `：${allSubs.join('、')}`;
+      txt += '\n';
+    });
+    if (sec.other) txt += `・其他：${sec.other}\n`;
+    txt += '\n';
+  });
+  return txt.trim();
+}
+
+async function generateSummary() {
+  const raw = collectData();
+  document.getElementById('modalBody').innerHTML = '<span class="loading">AI 摘要生成中，請稍候…</span>';
+  document.getElementById('modalBg').classList.add('open');
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `以下是一位體育大學碩士生閱讀文獻後填寫的反思問卷內容，請依據這些資料，生成繁體中文個人反思摘要，風格學術但親切，嚴格按照以下格式輸出，不得更改格式：
+
+#閱讀文獻的重點摘要：[根據問卷內容，撰寫約 100–150 字，說明文獻核心發現與對作者的啟發，不換行，純文字段落]
+
+#未來行動計畫：[根據問卷內容，撰寫約 80–120 字，說明作者計畫採取的具體行動，不換行，純文字段落]
+
+#體育大學成人病理學
+#${getVal('article').includes('DeutchFamine') || getVal('article').includes('Famine') ? '荷蘭飢荒研究' : getVal('article')}
+#${getDisplayName() || '（姓名未填）'}
+
+問卷內容：\n${raw}`
+        }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.map(b => b.text || '').join('') || '（無法取得摘要）';
+    document.getElementById('modalBody').textContent = text;
+  } catch(e) {
+    document.getElementById('modalBody').textContent = '摘要生成失敗，請稍後再試。\n\n以下為原始整理：\n\n' + raw;
+  }
+}
+
+function closeModal(e) { if(e.target === document.getElementById('modalBg')) document.getElementById('modalBg').classList.remove('open'); }
+
+function copyText() {
+  const t = document.getElementById('modalBody').textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(() => alert('已複製到剪貼簿！')).catch(() => fallbackCopy(t));
+  } else {
+    fallbackCopy(t);
+  }
+}
+function fallbackCopy(t) {
+  const ta = document.createElement('textarea');
+  ta.value = t;
+  ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try {
+    document.execCommand('copy');
+    alert('已複製到剪貼簿！');
+  } catch(e) {
+    alert('複製失敗，請手動選取文字後複製。');
+  }
+  document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>
