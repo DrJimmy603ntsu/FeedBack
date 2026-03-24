@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>心理與生命科學研究中心</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --ink: #1a1614;
+      --sage: #6b7c5e;
+      --rust: #b85c38;
+      --gold: #c9a84c;
+      --mist: #dde3d8;
+      --paper: #ece7dc;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: 'Noto Sans TC', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.5;
+    }
+    header {
+      padding: 3rem 5vw 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid rgba(26,22,20,0.12);
+      animation: fadeDown 0.8s ease both;
+    }
+    .logo-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .logo-en {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: var(--sage);
+      text-transform: uppercase;
+    }
+    .logo-zh {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: 0.05em;
+    }
+    nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      padding-top: 0.25rem;
+    }
+    nav a {
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      opacity: 0.65;
+      transition: opacity 0.2s;
+    }
+    nav a:hover { opacity: 1; }
+    .hero {
+      padding: 7rem 5vw 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      animation: fadeUp 1s ease 0.2s both;
+    }
+    .hero-eyebrow {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--rust);
+      letter-spacing: 0.12em;
+      margin-bottom: 1.2rem;
+    }
+    .hero-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(2.4rem, 4.5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title span { color: var(--sage); }
+    .hero-desc {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: rgba(26,22,20,0.65);
+      max-width: 420px;
+      font-weight: 300;
+    }
+    .hero-visual {
+      position: relative;
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-visual svg {
+      width: 100%;
+      height: 100%;
+      opacity: 0.18;
+      position: absolute;
+    }
+    .hero-badge {
+      position: relative;
+      z-index: 2;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sage) 0%, var(--ink) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 30px 80px rgba(107,124,94,0.3), 0 0 0 1px rgba(107,124,94,0.2);
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .hero-badge-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3.5rem;
+      color: white;
+      line-height: 1;
+    }
+    .hero-badge-label {
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.15em;
+      margin-top: 0.3rem;
+    }
+    .section-divider {
+      margin: 0 5vw;
+      border: none;
+      border-top: 1px solid rgba(26,22,20,0.1);
+    }
+    .cards-section {
+      padding: 5rem 5vw;
+      animation: fadeUp 1s ease 0.4s both;
+    }
+    .section-header { margin-bottom: 3rem; }
+    .section-tag {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper);
+      border: 1px solid rgba(26,22,20,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(26,22,20,0.12);
+    }
+    .card-accent { height: 5px; }
+    .card--epi .card-accent { background: linear-gradient(90deg, var(--sage), #a8b89a); }
+    .card--cbt .card-accent { background: linear-gradient(90deg, var(--rust), #d4845c); }
+    .card-body { padding: 2.5rem; }
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.4rem;
+    }
+    .card--epi .card-icon { background: rgba(107,124,94,0.12); }
+    .card--cbt .card-icon { background: rgba(184,92,56,0.1); }
+    .card-label {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.6rem;
+    }
+    .card--epi .card-label { color: var(--sage); }
+    .card--cbt .card-label { color: var(--rust); }
+    .card-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+    }
+    .card-desc {
+      font-size: 0.85rem;
+      line-height: 1.85;
+      color: rgba(26,22,20,0.6);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(26,22,20,0.08);
+    }
+    .card-meta {
+      font-size: 0.75rem;
+      color: rgba(26,22,20,0.4);
+      letter-spacing: 0.06em;
+    }
+    .card-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+    }
+    .card--epi .card-cta { color: var(--sage); }
+    .card--cbt .card-cta { color: var(--rust); }
+    .card-arrow {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      transition: transform 0.25s ease;
+    }
+    .card--epi .card-arrow { background: rgba(107,124,94,0.15); }
+    .card--cbt .card-arrow { background: rgba(184,92,56,0.12); }
+    .card:hover .card-arrow { transform: translateX(3px); }
+    .info-strip {
+      padding: 3.5rem 5vw;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      background: var(--ink);
+      color: white;
+      margin-top: 2rem;
+    }
+    .strip-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .strip-label {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+    }
+    .strip-desc {
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.45);
+      font-weight: 300;
+    }
+    footer {
+      padding: 2.5rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(26,22,20,0.1);
+      font-size: 0.78rem;
+      color: rgba(26,22,20,0.4);
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { height: 200px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .info-strip { grid-template-columns: 1fr; }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-group">
+    <span class="logo-en">Research Center</span>
+    <span class="logo-zh">心理與生命科學研究中心</span>
+  </div>
+  <nav>
+    <a href="index.html">首頁</a>
+    <a href="feedback/epigenetic.html">表觀遺傳</a>
+    <a href="feedback/CBT.html">認知行為</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Science × Psychology</p>
+      <h1 class="hero-title">探索基因<br/>與<span>心智</span>的<br/>交匯點</h1>
+      <p class="hero-desc">
+        結合表觀遺傳學與認知行為療法的跨領域研究，
+        透過科學化問卷，深入了解環境、行為與心理之間的動態關係。
+      </p>
+    </div>
+    <div class="hero-visual">
+      <svg viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="200" cy="190" r="180" stroke="#6b7c5e" stroke-width="1"/>
+        <circle cx="200" cy="190" r="140" stroke="#6b7c5e" stroke-width="0.5"/>
+        <circle cx="200" cy="190" r="100" stroke="#6b7c5e" stroke-width="0.5"/>
+        <path d="M60 100 Q200 50 340 100 Q200 150 60 200 Q200 250 340 300" stroke="#b85c38" stroke-width="1.5" fill="none"/>
+        <path d="M60 80 Q200 130 340 80 Q200 30 60 80" stroke="#c9a84c" stroke-width="0.8" fill="none" opacity="0.6"/>
+        <line x1="200" y1="10" x2="200" y2="370" stroke="#6b7c5e" stroke-width="0.5" stroke-dasharray="4 6"/>
+      </svg>
+      <div class="hero-badge">
+        <span class="hero-badge-num">2</span>
+        <span class="hero-badge-label">QUESTIONNAIRES</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider"/>
+
+  <section class="cards-section">
+    <div class="section-header">
+      <p class="section-tag">Choose your path</p>
+      <h2 class="section-title">選擇研究問卷</h2>
+    </div>
+    <div class="cards-grid">
+
+      <a class="card card--epi" href="feedback/epigenetic.html">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-icon">🧬</div>
+          <p class="card-label">Epigenetics</p>
+          <h3 class="card-title">表觀遺傳學<br/>健康評估問卷</h3>
+          <p class="card-desc">
+            評估環境暴露、生活型態及壓力因子如何透過
+            表觀遺傳機制影響基因表現。本問卷涵蓋飲食、
+            睡眠、環境毒素與心理壓力等多個面向。
+          </p>
+          <div class="card-footer">
+            <span class="card-meta">約 10–15 分鐘</span>
+            <span class="card-cta">
+              開始作答
+              <span class="card-arrow">→</span>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <a class="card card--cbt" href="feedback/CBT.html">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-icon">🧠</div>
+          <p class="card-label">Cognitive Behavioral Therapy</p>
+          <h3 class="card-title">認知行為療法<br/>心理評估問卷</h3>
+          <p class="card-desc">
+            透過標準化認知行為療法架構，評估思考模式、
+            情緒調節能力與行為反應。協助識別負向認知
+            偏誤並提供個人化回饋建議。
+          </p>
+          <div class="card-footer">
+            <span class="card-meta">約 8–12 分鐘</span>
+            <span class="card-cta">
+              開始作答
+              <span class="card-arrow">→</span>
+            </span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+</main>
+
+<div class="info-strip">
+  <div class="strip-item">
+    <div class="strip-num">科學</div>
+    <div class="strip-label">循證研究基礎</div>
+    <div class="strip-desc">所有問卷皆依據國際學術文獻設計，具有良好的信效度。</div>
+  </div>
+  <div class="strip-item">
+    <div class="strip-num">保密</div>
+    <div class="strip-label">資料隱私保護</div>
+    <div class="strip-desc">您的回答將以匿名方式處理，僅用於學術研究目的。</div>
+  </div>
+  <div class="strip-item">
+    <div class="strip-num">回饋</div>
+    <div class="strip-label">即時個人化分析</div>
+    <div class="strip-desc">完成問卷後立即獲得專屬的分析報告與建議。</div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 心理與生命科學研究中心</span>
+  <span>研究倫理委員會核准</span>
+</footer>
+
+</body>
+</html>
