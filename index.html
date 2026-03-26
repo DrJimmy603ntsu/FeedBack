@@ -15,7 +15,9 @@
       --mist: #dde3d8;
       --paper: #ece7dc;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       background-color: var(--cream);
       color: var(--ink);
@@ -23,6 +25,8 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
+
+    /* Grain texture overlay */
     body::before {
       content: '';
       position: fixed;
@@ -32,6 +36,8 @@
       z-index: 100;
       opacity: 0.5;
     }
+
+    /* Header */
     header {
       padding: 3rem 5vw 2rem;
       display: flex;
@@ -40,11 +46,13 @@
       border-bottom: 1px solid rgba(26,22,20,0.12);
       animation: fadeDown 0.8s ease both;
     }
+
     .logo-group {
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
     }
+
     .logo-en {
       font-family: 'DM Serif Display', serif;
       font-size: 0.85rem;
@@ -52,6 +60,7 @@
       color: var(--sage);
       text-transform: uppercase;
     }
+
     .logo-zh {
       font-family: 'Noto Serif TC', serif;
       font-size: 1.05rem;
@@ -59,12 +68,14 @@
       color: var(--ink);
       letter-spacing: 0.05em;
     }
+
     nav {
       display: flex;
       gap: 2rem;
       align-items: center;
       padding-top: 0.25rem;
     }
+
     nav a {
       font-family: 'Noto Sans TC', sans-serif;
       font-size: 0.8rem;
@@ -75,7 +86,10 @@
       opacity: 0.65;
       transition: opacity 0.2s;
     }
+
     nav a:hover { opacity: 1; }
+
+    /* Hero section */
     .hero {
       padding: 7rem 5vw 5rem;
       display: grid;
@@ -84,6 +98,9 @@
       align-items: center;
       animation: fadeUp 1s ease 0.2s both;
     }
+
+    .hero-text {}
+
     .hero-eyebrow {
       font-family: 'DM Serif Display', serif;
       font-style: italic;
@@ -92,6 +109,7 @@
       letter-spacing: 0.12em;
       margin-bottom: 1.2rem;
     }
+
     .hero-title {
       font-family: 'Noto Serif TC', serif;
       font-size: clamp(2.4rem, 4.5vw, 4rem);
@@ -100,7 +118,11 @@
       letter-spacing: -0.01em;
       margin-bottom: 1.5rem;
     }
-    .hero-title span { color: var(--sage); }
+
+    .hero-title span {
+      color: var(--sage);
+    }
+
     .hero-desc {
       font-size: 0.95rem;
       line-height: 1.9;
@@ -108,6 +130,7 @@
       max-width: 420px;
       font-weight: 300;
     }
+
     .hero-visual {
       position: relative;
       height: 380px;
@@ -115,12 +138,15 @@
       align-items: center;
       justify-content: center;
     }
+
+    /* DNA helix SVG decoration */
     .hero-visual svg {
       width: 100%;
       height: 100%;
       opacity: 0.18;
       position: absolute;
     }
+
     .hero-badge {
       position: relative;
       z-index: 2;
@@ -135,16 +161,19 @@
       box-shadow: 0 30px 80px rgba(107,124,94,0.3), 0 0 0 1px rgba(107,124,94,0.2);
       animation: float 6s ease-in-out infinite;
     }
+
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-12px); }
     }
+
     .hero-badge-num {
       font-family: 'DM Serif Display', serif;
       font-size: 3.5rem;
       color: white;
       line-height: 1;
     }
+
     .hero-badge-label {
       font-family: 'Noto Sans TC', sans-serif;
       font-size: 0.7rem;
@@ -152,16 +181,24 @@
       letter-spacing: 0.15em;
       margin-top: 0.3rem;
     }
+
+    /* Divider */
     .section-divider {
       margin: 0 5vw;
       border: none;
       border-top: 1px solid rgba(26,22,20,0.1);
     }
+
+    /* Cards section */
     .cards-section {
       padding: 5rem 5vw;
       animation: fadeUp 1s ease 0.4s both;
     }
-    .section-header { margin-bottom: 3rem; }
+
+    .section-header {
+      margin-bottom: 3rem;
+    }
+
     .section-tag {
       font-family: 'DM Serif Display', serif;
       font-style: italic;
@@ -170,17 +207,20 @@
       letter-spacing: 0.15em;
       margin-bottom: 0.6rem;
     }
+
     .section-title {
       font-family: 'Noto Serif TC', serif;
       font-size: 1.8rem;
       font-weight: 600;
       letter-spacing: 0.02em;
     }
+
     .cards-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 2rem;
     }
+
     .card {
       display: block;
       text-decoration: none;
@@ -190,15 +230,25 @@
       border-radius: 4px;
       overflow: hidden;
       transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease;
+      position: relative;
     }
+
     .card:hover {
       transform: translateY(-6px);
       box-shadow: 0 24px 60px rgba(26,22,20,0.12);
     }
-    .card-accent { height: 5px; }
+
+    .card-accent {
+      height: 5px;
+    }
+
     .card--epi .card-accent { background: linear-gradient(90deg, var(--sage), #a8b89a); }
     .card--cbt .card-accent { background: linear-gradient(90deg, var(--rust), #d4845c); }
-    .card-body { padding: 2.5rem; }
+
+    .card-body {
+      padding: 2.5rem;
+    }
+
     .card-icon {
       width: 48px;
       height: 48px;
@@ -209,8 +259,10 @@
       margin-bottom: 1.5rem;
       font-size: 1.4rem;
     }
+
     .card--epi .card-icon { background: rgba(107,124,94,0.12); }
     .card--cbt .card-icon { background: rgba(184,92,56,0.1); }
+
     .card-label {
       font-family: 'DM Serif Display', serif;
       font-style: italic;
@@ -218,8 +270,10 @@
       letter-spacing: 0.15em;
       margin-bottom: 0.6rem;
     }
+
     .card--epi .card-label { color: var(--sage); }
     .card--cbt .card-label { color: var(--rust); }
+
     .card-title {
       font-family: 'Noto Serif TC', serif;
       font-size: 1.45rem;
@@ -228,6 +282,7 @@
       margin-bottom: 1rem;
       letter-spacing: 0.02em;
     }
+
     .card-desc {
       font-size: 0.85rem;
       line-height: 1.85;
@@ -235,6 +290,7 @@
       font-weight: 300;
       margin-bottom: 2rem;
     }
+
     .card-footer {
       display: flex;
       align-items: center;
@@ -242,11 +298,13 @@
       padding-top: 1.5rem;
       border-top: 1px solid rgba(26,22,20,0.08);
     }
+
     .card-meta {
       font-size: 0.75rem;
       color: rgba(26,22,20,0.4);
       letter-spacing: 0.06em;
     }
+
     .card-cta {
       display: flex;
       align-items: center;
@@ -255,8 +313,10 @@
       font-weight: 500;
       letter-spacing: 0.08em;
     }
+
     .card--epi .card-cta { color: var(--sage); }
     .card--cbt .card-cta { color: var(--rust); }
+
     .card-arrow {
       width: 20px;
       height: 20px;
@@ -267,9 +327,13 @@
       font-size: 0.7rem;
       transition: transform 0.25s ease;
     }
+
     .card--epi .card-arrow { background: rgba(107,124,94,0.15); }
     .card--cbt .card-arrow { background: rgba(184,92,56,0.12); }
+
     .card:hover .card-arrow { transform: translateX(3px); }
+
+    /* Info strips */
     .info-strip {
       padding: 3.5rem 5vw;
       display: grid;
@@ -279,6 +343,9 @@
       color: white;
       margin-top: 2rem;
     }
+
+    .strip-item {}
+
     .strip-num {
       font-family: 'DM Serif Display', serif;
       font-size: 2.8rem;
@@ -286,6 +353,7 @@
       line-height: 1;
       margin-bottom: 0.5rem;
     }
+
     .strip-label {
       font-family: 'Noto Serif TC', serif;
       font-size: 0.85rem;
@@ -293,12 +361,15 @@
       letter-spacing: 0.05em;
       margin-bottom: 0.4rem;
     }
+
     .strip-desc {
       font-size: 0.78rem;
       line-height: 1.7;
       color: rgba(255,255,255,0.45);
       font-weight: 300;
     }
+
+    /* Footer */
     footer {
       padding: 2.5rem 5vw;
       display: flex;
@@ -308,14 +379,17 @@
       font-size: 0.78rem;
       color: rgba(26,22,20,0.4);
     }
+
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-16px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     @media (max-width: 768px) {
       .hero { grid-template-columns: 1fr; }
       .hero-visual { height: 200px; }
@@ -350,6 +424,7 @@
       </p>
     </div>
     <div class="hero-visual">
+      <!-- Decorative SVG pattern -->
       <svg viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="200" cy="190" r="180" stroke="#6b7c5e" stroke-width="1"/>
         <circle cx="200" cy="190" r="140" stroke="#6b7c5e" stroke-width="0.5"/>
@@ -372,8 +447,9 @@
       <p class="section-tag">Choose your path</p>
       <h2 class="section-title">選擇研究問卷</h2>
     </div>
-    <div class="cards-grid">
 
+    <div class="cards-grid">
+      <!-- Epigenetic Card -->
       <a class="card card--epi" href="feedback/epigenetic.html">
         <div class="card-accent"></div>
         <div class="card-body">
@@ -395,6 +471,7 @@
         </div>
       </a>
 
+      <!-- CBT Card -->
       <a class="card card--cbt" href="feedback/CBT.html">
         <div class="card-accent"></div>
         <div class="card-body">
@@ -415,7 +492,6 @@
           </div>
         </div>
       </a>
-
     </div>
   </section>
 </main>
