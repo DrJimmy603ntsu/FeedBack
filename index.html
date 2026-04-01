@@ -14,6 +14,7 @@
       --gold: #c9a84c;
       --mist: #dde3d8;
       --paper: #ece7dc;
+      --teal: #2e7d82;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -47,20 +48,12 @@
     nav a { font-family: 'Noto Sans TC', sans-serif; font-size: 0.8rem; font-weight: 500; color: var(--ink); text-decoration: none; letter-spacing: 0.08em; opacity: 0.65; transition: opacity 0.2s; }
     nav a:hover, nav a.active { opacity: 1; }
     nav a.active { border-bottom: 1.5px solid var(--sage); padding-bottom: 1px; }
-
-    /* Page Header */
-    .page-header {
-      padding: 5rem 5vw 3.5rem;
-      animation: fadeUp 1s ease 0.2s both;
-    }
+    .page-header { padding: 5rem 5vw 3.5rem; animation: fadeUp 1s ease 0.2s both; }
     .page-eyebrow { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 0.9rem; color: var(--rust); letter-spacing: 0.12em; margin-bottom: 1rem; }
     .page-title { font-family: 'Noto Serif TC', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 900; line-height: 1.25; letter-spacing: -0.01em; margin-bottom: 1rem; }
     .page-title span { color: var(--sage); }
     .page-desc { font-size: 0.92rem; line-height: 1.9; color: rgba(26,22,20,0.6); max-width: 540px; font-weight: 300; }
-
     .section-divider { margin: 0 5vw; border: none; border-top: 1px solid rgba(26,22,20,0.1); }
-
-    /* Filter Tags */
     .filter-section { padding: 2.5rem 5vw 1rem; animation: fadeUp 1s ease 0.3s both; }
     .filter-label { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 0.78rem; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 1rem; }
     .filter-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
@@ -80,14 +73,11 @@
     .tag-btn:hover { border-color: var(--sage); color: var(--sage); }
     .tag-btn.active { background: var(--sage); border-color: var(--sage); color: white; }
     .tag-btn[data-tag="all"].active { background: var(--ink); border-color: var(--ink); color: white; }
-
-    /* Literature Grid */
+    .tag-btn[data-tag="mobile"].active { background: var(--teal); border-color: var(--teal); color: white; }
     .lit-section { padding: 2rem 5vw 5rem; animation: fadeUp 1s ease 0.4s both; }
     .lit-count { font-size: 0.78rem; color: rgba(26,22,20,0.4); letter-spacing: 0.08em; margin-bottom: 2rem; }
     .lit-count span { color: var(--ink); font-weight: 500; }
-
     .lit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-
     .lit-card {
       background: var(--paper);
       border: 1px solid rgba(26,22,20,0.08);
@@ -99,14 +89,13 @@
     }
     .lit-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(26,22,20,0.1); }
     .lit-card.hidden { display: none; }
-
     .lit-card-top { height: 4px; }
-    .lit-card-top--epi { background: linear-gradient(90deg, var(--sage), #a8b89a); }
-    .lit-card-top--cbt { background: linear-gradient(90deg, var(--rust), #d4845c); }
+    .lit-card-top--epi   { background: linear-gradient(90deg, var(--sage), #a8b89a); }
+    .lit-card-top--cbt   { background: linear-gradient(90deg, var(--rust), #d4845c); }
     .lit-card-top--neuro { background: linear-gradient(90deg, #4a6d8c, #7aa2c0); }
-    .lit-card-top--stress { background: linear-gradient(90deg, var(--gold), #e0c06a); }
+    .lit-card-top--stress{ background: linear-gradient(90deg, var(--gold), #e0c06a); }
     .lit-card-top--devel { background: linear-gradient(90deg, #7c5e7c, #b09ab0); }
-
+    .lit-card-top--mobile{ background: linear-gradient(90deg, var(--teal), #52b2b8); }
     .lit-card-body { padding: 1.8rem; flex: 1; display: flex; flex-direction: column; }
     .lit-tag {
       display: inline-block;
@@ -119,40 +108,31 @@
       margin-bottom: 1rem;
       align-self: flex-start;
     }
-    .lit-tag--epi { background: rgba(107,124,94,0.12); color: var(--sage); }
-    .lit-tag--cbt { background: rgba(184,92,56,0.1); color: var(--rust); }
-    .lit-tag--neuro { background: rgba(74,109,140,0.1); color: #4a6d8c; }
+    .lit-tag--epi    { background: rgba(107,124,94,0.12); color: var(--sage); }
+    .lit-tag--cbt    { background: rgba(184,92,56,0.1);   color: var(--rust); }
+    .lit-tag--neuro  { background: rgba(74,109,140,0.1);  color: #4a6d8c; }
     .lit-tag--stress { background: rgba(201,168,76,0.12); color: #a07828; }
-    .lit-tag--devel { background: rgba(124,94,124,0.1); color: #7c5e7c; }
-
-    .lit-title { font-family: 'Noto Serif TC', serif; font-size: 1rem; font-weight: 600; line-height: 1.55; letter-spacing: 0.02em; margin-bottom: 0.75rem; color: var(--ink); }
+    .lit-tag--devel  { background: rgba(124,94,124,0.1);  color: #7c5e7c; }
+    .lit-tag--mobile { background: rgba(46,125,130,0.12); color: var(--teal); }
+    .lit-title   { font-family: 'Noto Serif TC', serif; font-size: 1rem; font-weight: 600; line-height: 1.55; letter-spacing: 0.02em; margin-bottom: 0.75rem; color: var(--ink); }
     .lit-authors { font-size: 0.78rem; color: rgba(26,22,20,0.5); margin-bottom: 0.4rem; font-weight: 300; }
     .lit-journal { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 0.78rem; color: var(--gold); letter-spacing: 0.05em; margin-bottom: 1rem; }
-    .lit-abstract { font-size: 0.8rem; line-height: 1.8; color: rgba(26,22,20,0.55); font-weight: 300; flex: 1; }
-
+    .lit-abstract{ font-size: 0.8rem; line-height: 1.8; color: rgba(26,22,20,0.55); font-weight: 300; flex: 1; }
     .lit-card-footer { padding: 1.2rem 1.8rem; border-top: 1px solid rgba(26,22,20,0.07); display: flex; align-items: center; justify-content: space-between; }
     .lit-year { font-size: 0.72rem; color: rgba(26,22,20,0.35); letter-spacing: 0.1em; }
     .lit-link {
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      color: var(--sage);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      opacity: 0.7;
-      transition: opacity 0.2s;
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em;
+      color: var(--sage); text-decoration: none;
+      display: flex; align-items: center; gap: 0.4rem;
+      opacity: 0.7; transition: opacity 0.2s;
     }
     .lit-link:hover { opacity: 1; }
-
-    /* Empty state */
+    .lit-link--mobile { color: var(--teal); }
     .empty-state { display: none; padding: 4rem; text-align: center; color: rgba(26,22,20,0.35); font-family: 'Noto Serif TC', serif; font-size: 1rem; }
     .empty-state.visible { display: block; }
-
     footer { padding: 2.5rem 5vw; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(26,22,20,0.1); font-size: 0.78rem; color: rgba(26,22,20,0.4); }
-    @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-16px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(20px);  } to { opacity:1; transform:translateY(0); } }
     @media (max-width: 900px) { .lit-grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 600px) { .lit-grid { grid-template-columns: 1fr; } nav { display: none; } }
   </style>
@@ -171,16 +151,13 @@
     <a href="../reflections/">閱讀感想</a>
   </nav>
 </header>
-
 <main>
   <section class="page-header">
     <p class="page-eyebrow">Key Literature</p>
     <h1 class="page-title">重要<span>文獻</span>閱讀</h1>
     <p class="page-desc">精選表觀遺傳學、認知行為療法、神經科學及相關領域的核心學術文獻，依主題分類整理，供研究參考使用。</p>
   </section>
-
   <hr class="section-divider"/>
-
   <section class="filter-section">
     <p class="filter-label">Filter by Topic</p>
     <div class="filter-tags">
@@ -190,12 +167,28 @@
       <button class="tag-btn" data-tag="neuro">神經科學</button>
       <button class="tag-btn" data-tag="stress">壓力與健康</button>
       <button class="tag-btn" data-tag="devel">發展心理學</button>
+      <button class="tag-btn" data-tag="mobile">行動裝置與健康</button>
     </div>
   </section>
-
   <section class="lit-section">
-    <p class="lit-count">顯示 <span id="count">12</span> 篇文獻</p>
+    <p class="lit-count">顯示 <span id="count">13</span> 篇文獻</p>
     <div class="lit-grid" id="litGrid">
+
+      <!-- ── NEW: Mobile Device & Diabetes ── -->
+      <div class="lit-card" data-category="mobile">
+        <div class="lit-card-top lit-card-top--mobile"></div>
+        <div class="lit-card-body">
+          <span class="lit-tag lit-tag--mobile">行動裝置與健康</span>
+          <h3 class="lit-title">使用行動裝置控制糖尿病：文獻回顧與實證研究</h3>
+          <p class="lit-authors">綜合文獻整理</p>
+          <p class="lit-journal">行動健康科技與慢性病管理</p>
+          <p class="lit-abstract">回顧行動裝置（智慧型手機 App、穿戴式血糖監測、遠距衛教）在糖尿病自我管理中的應用實證，探討其對血糖控制（HbA1c）、服藥順從性及生活品質的改善效果，並討論數位健康介入的設計原則。</p>
+        </div>
+        <div class="lit-card-footer">
+          <span class="lit-year">2024</span>
+          <a href="Paper/literature/MobileDeviceHelp.html" class="lit-link lit-link--mobile">查看詳細內容 →</a>
+        </div>
+      </div>
 
       <!-- Epigenetics -->
       <div class="lit-card" data-category="epi">
@@ -212,7 +205,6 @@
           <a href="#" class="lit-link">查看摘要 →</a>
         </div>
       </div>
-
       <div class="lit-card" data-category="epi">
         <div class="lit-card-top lit-card-top--epi"></div>
         <div class="lit-card-body">
@@ -227,7 +219,6 @@
           <a href="#" class="lit-link">查看摘要 →</a>
         </div>
       </div>
-
       <div class="lit-card" data-category="epi">
         <div class="lit-card-top lit-card-top--epi"></div>
         <div class="lit-card-body">
@@ -258,7 +249,6 @@
           <a href="#" class="lit-link">查看摘要 →</a>
         </div>
       </div>
-
       <div class="lit-card" data-category="cbt">
         <div class="lit-card-top lit-card-top--cbt"></div>
         <div class="lit-card-body">
@@ -273,7 +263,6 @@
           <a href="#" class="lit-link">查看摘要 →</a>
         </div>
       </div>
-
       <div class="lit-card" data-category="cbt">
         <div class="lit-card-top lit-card-top--cbt"></div>
         <div class="lit-card-body">
@@ -304,7 +293,6 @@
           <a href="#" class="lit-link">查看摘要 →</a>
         </div>
       </div>
-
       <div class="lit-card" data-category="neuro">
         <div class="lit-card-top lit-card-top--neuro"></div>
         <div class="lit-card-body">
@@ -335,7 +323,6 @@
           <a href="#" class="lit-link">查看摘要 →</a>
         </div>
       </div>
-
       <div class="lit-card" data-category="stress">
         <div class="lit-card-top lit-card-top--stress"></div>
         <div class="lit-card-body">
@@ -366,7 +353,6 @@
           <a href="#" class="lit-link">查看摘要 →</a>
         </div>
       </div>
-
       <div class="lit-card" data-category="devel">
         <div class="lit-card-top lit-card-top--devel"></div>
         <div class="lit-card-body">
@@ -386,18 +372,15 @@
     <div class="empty-state" id="emptyState">目前沒有符合此分類的文獻。</div>
   </section>
 </main>
-
 <footer>
   <span>© 2025 心理與生命科學研究中心</span>
   <span>研究倫理委員會核准</span>
 </footer>
-
 <script>
   const tagBtns = document.querySelectorAll('.tag-btn');
-  const cards = document.querySelectorAll('.lit-card');
+  const cards   = document.querySelectorAll('.lit-card');
   const countEl = document.getElementById('count');
   const emptyState = document.getElementById('emptyState');
-
   tagBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       tagBtns.forEach(b => b.classList.remove('active'));
