@@ -1,419 +1,624 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>重要文獻閱讀 — 心理與生命科學研究中心</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <title>心理與生命科學研究中心</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Noto+Serif+TC:wght@300;400;600;900&family=Noto+Sans+TC:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --cream: #f5f0e8;
-      --ink: #1a1614;
-      --sage: #6b7c5e;
-      --rust: #b85c38;
-      --gold: #c9a84c;
-      --mist: #dde3d8;
-      --paper: #ece7dc;
+      --bg: #0e0d0b;
+      --cream: #f0ead8;
+      --cream-dim: rgba(240,234,216,0.55);
+      --sage: #7d9970;
+      --sage-light: #a8bf9e;
+      --rust: #c4623a;
+      --gold: #d4a843;
+      --mist: #2a2a24;
+      --line: rgba(240,234,216,0.1);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      background-color: var(--cream);
-      color: var(--ink);
+      background: var(--bg);
+      color: var(--cream);
       font-family: 'Noto Sans TC', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
     }
-    body::before {
+
+    /* Grain overlay */
+    body::after {
       content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 100;
-      opacity: 0.5;
+      position: fixed; inset: 0; z-index: 999; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      opacity: 0.4;
     }
+
+    /* ── HEADER ── */
     header {
-      padding: 3rem 5vw 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      border-bottom: 1px solid rgba(26,22,20,0.12);
-      animation: fadeDown 0.8s ease both;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.6rem 5vw;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--line);
+      background: rgba(14,13,11,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      animation: fadeDown 0.7s ease both;
     }
-    .logo-group { display: flex; flex-direction: column; gap: 0.25rem; }
-    .logo-en { font-family: 'DM Serif Display', serif; font-size: 0.85rem; letter-spacing: 0.2em; color: var(--sage); text-transform: uppercase; }
-    .logo-zh { font-family: 'Noto Serif TC', serif; font-size: 1.05rem; font-weight: 600; color: var(--ink); letter-spacing: 0.05em; }
-    nav { display: flex; gap: 2rem; align-items: center; padding-top: 0.25rem; }
-    nav a { font-family: 'Noto Sans TC', sans-serif; font-size: 0.8rem; font-weight: 500; color: var(--ink); text-decoration: none; letter-spacing: 0.08em; opacity: 0.65; transition: opacity 0.2s; }
-    nav a:hover, nav a.active { opacity: 1; }
-    nav a.active { border-bottom: 1.5px solid var(--sage); padding-bottom: 1px; }
-
-    /* Page Header */
-    .page-header {
-      padding: 5rem 5vw 3.5rem;
-      animation: fadeUp 1s ease 0.2s both;
+    .logo {
+      display: flex; align-items: baseline; gap: 0.9rem;
     }
-    .page-eyebrow { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 0.9rem; color: var(--rust); letter-spacing: 0.12em; margin-bottom: 1rem; }
-    .page-title { font-family: 'Noto Serif TC', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 900; line-height: 1.25; letter-spacing: -0.01em; margin-bottom: 1rem; }
-    .page-title span { color: var(--sage); }
-    .page-desc { font-size: 0.92rem; line-height: 1.9; color: rgba(26,22,20,0.6); max-width: 540px; font-weight: 300; }
-
-    .section-divider { margin: 0 5vw; border: none; border-top: 1px solid rgba(26,22,20,0.1); }
-
-    /* Filter Tags */
-    .filter-section { padding: 2.5rem 5vw 1rem; animation: fadeUp 1s ease 0.3s both; }
-    .filter-label { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 0.78rem; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 1rem; }
-    .filter-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-    .tag-btn {
-      font-family: 'Noto Sans TC', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 500;
+    .logo-mark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .logo-divider {
+      width: 1px; height: 1.1rem;
+      background: var(--line);
+      transform: rotate(15deg);
+    }
+    .logo-zh {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 0.82rem;
+      font-weight: 600;
       letter-spacing: 0.06em;
-      padding: 0.45rem 1.1rem;
-      border-radius: 2px;
-      border: 1px solid rgba(26,22,20,0.18);
-      background: transparent;
-      color: rgba(26,22,20,0.6);
-      cursor: pointer;
-      transition: all 0.22s ease;
+      color: rgba(240,234,216,0.7);
     }
-    .tag-btn:hover { border-color: var(--sage); color: var(--sage); }
-    .tag-btn.active { background: var(--sage); border-color: var(--sage); color: white; }
-    .tag-btn[data-tag="all"].active { background: var(--ink); border-color: var(--ink); color: white; }
+    nav { display: flex; gap: 2.2rem; align-items: center; }
+    nav a {
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.1em;
+      color: rgba(240,234,216,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+      text-transform: uppercase;
+    }
+    nav a:hover { color: var(--cream); }
 
-    /* Literature Grid */
-    .lit-section { padding: 2rem 5vw 5rem; animation: fadeUp 1s ease 0.4s both; }
-    .lit-count { font-size: 0.78rem; color: rgba(26,22,20,0.4); letter-spacing: 0.08em; margin-bottom: 2rem; }
-    .lit-count span { color: var(--ink); font-weight: 500; }
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      padding: 0 5vw;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-    .lit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    /* Large background text */
+    .hero-bg-text {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(10rem, 22vw, 22rem);
+      letter-spacing: -0.02em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(240,234,216,0.04);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
 
-    .lit-card {
-      background: var(--paper);
-      border: 1px solid rgba(26,22,20,0.08);
+    /* Diagonal accent line */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 18vw;
+      width: 1px; height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(212,168,67,0.2) 40%, rgba(212,168,67,0.1) 70%, transparent);
+      z-index: 0;
+    }
+
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-kicker {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.9s ease 0.1s both;
+    }
+    .hero-kicker-line { width: 40px; height: 1px; background: var(--gold); }
+    .hero-kicker-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(3.2rem, 7vw, 6.5rem);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.9s ease 0.2s both;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--sage-light);
+    }
+    .hero-title .accent { color: var(--gold); }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: rgba(240,234,216,0.5);
+      max-width: 500px;
+      font-weight: 300;
+      margin-bottom: 3.5rem;
+      animation: fadeUp 0.9s ease 0.3s both;
+    }
+
+    .hero-cta {
+      display: flex; gap: 1.2rem; flex-wrap: wrap;
+      animation: fadeUp 0.9s ease 0.4s both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2rem;
+      background: var(--gold);
+      color: var(--bg);
+      font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; border-radius: 2px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #e0b84e; transform: translateY(-2px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2rem;
+      border: 1px solid rgba(240,234,216,0.2);
+      color: rgba(240,234,216,0.65);
+      font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--cream); color: var(--cream); transform: translateY(-2px); }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 5vw;
+      display: flex; align-items: center; gap: 0.8rem;
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(240,234,216,0.25);
+      animation: fadeUp 1s ease 0.8s both;
+    }
+    .scroll-line {
+      width: 32px; height: 1px;
+      background: rgba(240,234,216,0.2);
+      position: relative; overflow: hidden;
+    }
+    .scroll-line::after {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--gold);
+      animation: scrollPulse 2s ease-in-out 1.2s infinite;
+    }
+    @keyframes scrollPulse {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .divider {
+      margin: 0 5vw;
+      border: none; border-top: 1px solid var(--line);
+    }
+
+    /* ── CARDS SECTION ── */
+    .cards-section {
+      padding: 7rem 5vw;
+    }
+
+    .section-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+    .section-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.3em;
+      color: rgba(240,234,216,0.2);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .section-count {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.8rem;
+      color: rgba(240,234,216,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    /* 2×2 grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1.5px;
+      background: var(--line);
+      border: 1px solid var(--line);
       border-radius: 4px;
       overflow: hidden;
-      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, opacity 0.3s ease;
-      display: flex;
-      flex-direction: column;
     }
-    .lit-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(26,22,20,0.1); }
-    .lit-card.hidden { display: none; }
 
-    .lit-card-top { height: 4px; }
-    .lit-card-top--epi { background: linear-gradient(90deg, var(--sage), #a8b89a); }
-    .lit-card-top--cbt { background: linear-gradient(90deg, var(--rust), #d4845c); }
-    .lit-card-top--neuro { background: linear-gradient(90deg, #4a6d8c, #7aa2c0); }
-    .lit-card-top--stress { background: linear-gradient(90deg, var(--gold), #e0c06a); }
-    .lit-card-top--devel { background: linear-gradient(90deg, #7c5e7c, #b09ab0); }
-
-    .lit-card-body { padding: 1.8rem; flex: 1; display: flex; flex-direction: column; }
-    .lit-tag {
-      display: inline-block;
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.25rem 0.65rem;
-      border-radius: 2px;
-      margin-bottom: 1rem;
-      align-self: flex-start;
-    }
-    .lit-tag--epi { background: rgba(107,124,94,0.12); color: var(--sage); }
-    .lit-tag--cbt { background: rgba(184,92,56,0.1); color: var(--rust); }
-    .lit-tag--neuro { background: rgba(74,109,140,0.1); color: #4a6d8c; }
-    .lit-tag--stress { background: rgba(201,168,76,0.12); color: #a07828; }
-    .lit-tag--devel { background: rgba(124,94,124,0.1); color: #7c5e7c; }
-
-    .lit-title { font-family: 'Noto Serif TC', serif; font-size: 1rem; font-weight: 600; line-height: 1.55; letter-spacing: 0.02em; margin-bottom: 0.75rem; color: var(--ink); }
-    .lit-authors { font-size: 0.78rem; color: rgba(26,22,20,0.5); margin-bottom: 0.4rem; font-weight: 300; }
-    .lit-journal { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 0.78rem; color: var(--gold); letter-spacing: 0.05em; margin-bottom: 1rem; }
-    .lit-abstract { font-size: 0.8rem; line-height: 1.8; color: rgba(26,22,20,0.55); font-weight: 300; flex: 1; }
-
-    .lit-card-footer { padding: 1.2rem 1.8rem; border-top: 1px solid rgba(26,22,20,0.07); display: flex; align-items: center; justify-content: space-between; }
-    .lit-year { font-size: 0.72rem; color: rgba(26,22,20,0.35); letter-spacing: 0.1em; }
-    .lit-link {
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      color: var(--sage);
+    .entry-card {
+      display: block;
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      opacity: 0.7;
-      transition: opacity 0.2s;
+      color: inherit;
+      background: var(--bg);
+      padding: 3rem 3rem 2.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease;
     }
-    .lit-link:hover { opacity: 1; }
 
-    /* Empty state */
-    .empty-state { display: none; padding: 4rem; text-align: center; color: rgba(26,22,20,0.35); font-family: 'Noto Serif TC', serif; font-size: 1rem; }
-    .empty-state.visible { display: block; }
+    /* Individual card accent colours */
+    .entry-card--epi   { --card-color: #7d9970; --card-glow: rgba(125,153,112,0.12); }
+    .entry-card--cbt   { --card-color: #c4623a; --card-glow: rgba(196,98,58,0.12); }
+    .entry-card--lit   { --card-color: #d4a843; --card-glow: rgba(212,168,67,0.12); }
+    .entry-card--ref   { --card-color: #7a8fba; --card-glow: rgba(122,143,186,0.12); }
 
-    footer { padding: 2.5rem 5vw; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(26,22,20,0.1); font-size: 0.78rem; color: rgba(26,22,20,0.4); }
-    @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @media (max-width: 900px) { .lit-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 600px) { .lit-grid { grid-template-columns: 1fr; } nav { display: none; } }
+    .entry-card:hover { background: var(--mist); }
+
+    /* Radial glow on hover */
+    .entry-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 20% 80%, var(--card-glow), transparent 65%);
+      opacity: 0; transition: opacity 0.45s ease;
+    }
+    .entry-card:hover::before { opacity: 1; }
+
+    /* Large number watermark */
+    .card-watermark {
+      position: absolute;
+      top: -0.5rem; right: 1.5rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 8rem;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(240,234,216,0.04);
+      pointer-events: none;
+      transition: -webkit-text-stroke-color 0.4s;
+    }
+    .entry-card:hover .card-watermark {
+      -webkit-text-stroke-color: rgba(240,234,216,0.07);
+    }
+
+    .card-inner { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; }
+
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2.5rem; }
+    .card-icon-wrap {
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 1px solid rgba(240,234,216,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      background: rgba(240,234,216,0.03);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .entry-card:hover .card-icon-wrap {
+      border-color: var(--card-color);
+      background: var(--card-glow);
+    }
+    .card-tag {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      padding: 0.3rem 0.8rem; border-radius: 2px;
+      border: 1px solid;
+      border-color: rgba(240,234,216,0.1);
+      color: rgba(240,234,216,0.3);
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .entry-card:hover .card-tag {
+      border-color: var(--card-color);
+      color: var(--card-color);
+    }
+
+    .card-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: 0.01em;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+    .card-desc {
+      font-size: 0.82rem; line-height: 1.85;
+      color: rgba(240,234,216,0.4);
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(240,234,216,0.07);
+    }
+    .card-meta { font-size: 0.72rem; color: rgba(240,234,216,0.25); letter-spacing: 0.08em; }
+    .card-arrow {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid rgba(240,234,216,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      color: rgba(240,234,216,0.3);
+      transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.3s;
+    }
+    .entry-card:hover .card-arrow {
+      background: var(--card-color);
+      border-color: var(--card-color);
+      color: var(--bg);
+      transform: translateX(3px);
+    }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      padding: 5rem 5vw;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .stats-strip::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(125,153,112,0.05) 0%, transparent 50%, rgba(196,98,58,0.05) 100%);
+      pointer-events: none;
+    }
+    .stat-item {
+      padding: 0 3rem;
+      border-right: 1px solid var(--line);
+      position: relative;
+    }
+    .stat-item:first-child { padding-left: 0; }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(135deg, var(--cream) 0%, rgba(240,234,216,0.5) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 0.88rem; font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+      color: var(--cream);
+    }
+    .stat-desc {
+      font-size: 0.78rem; line-height: 1.7;
+      color: rgba(240,234,216,0.3); font-weight: 300;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 5vw;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--line);
+      font-size: 0.75rem;
+      color: rgba(240,234,216,0.25);
+      letter-spacing: 0.06em;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; letter-spacing: 0.15em;
+      color: rgba(240,234,216,0.2);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .stats-strip { grid-template-columns: 1fr; gap: 2.5rem; }
+      .stat-item { padding: 0; border-right: none; border-bottom: 1px solid var(--line); padding-bottom: 2.5rem; }
+      .stat-item:last-child { border-bottom: none; padding-bottom: 0; }
+      nav { display: none; }
+      .section-head { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
   </style>
 </head>
 <body>
+
 <header>
-  <div class="logo-group">
-    <span class="logo-en">Research Center</span>
+  <div class="logo">
+    <span class="logo-mark">CLBS</span>
+    <div class="logo-divider"></div>
     <span class="logo-zh">心理與生命科學研究中心</span>
   </div>
   <nav>
-    <a href="../../index.html">首頁</a>
-    <a href="../epigenetic.html">表觀遺傳</a>
-    <a href="../cbt.html">認知行為</a>
-    <a href="../literature/">重要文獻</a>
-    <a href="../reflections/">閱讀感想</a>
+    <a href="Paper/epigenetic.html">表觀遺傳</a>
+    <a href="Paper/cbt.html">認知行為</a>
+    <a href="Paper/literature/">重要文獻</a>
+    <a href="Paper/reflections/">閱讀感想</a>
   </nav>
 </header>
 
 <main>
-  <section class="page-header">
-    <p class="page-eyebrow">Key Literature</p>
-    <h1 class="page-title">重要<span>文獻</span>閱讀</h1>
-    <p class="page-desc">精選表觀遺傳學、認知行為療法、神經科學及相關領域的核心學術文獻，依主題分類整理，供研究參考使用。</p>
-  </section>
 
-  <hr class="section-divider"/>
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-bg-text">MIND</div>
 
-  <section class="filter-section">
-    <p class="filter-label">Filter by Topic</p>
-    <div class="filter-tags">
-      <button class="tag-btn active" data-tag="all">全部文獻</button>
-      <button class="tag-btn" data-tag="epi">表觀遺傳學</button>
-      <button class="tag-btn" data-tag="cbt">認知行為療法</button>
-      <button class="tag-btn" data-tag="neuro">神經科學</button>
-      <button class="tag-btn" data-tag="stress">壓力與健康</button>
-      <button class="tag-btn" data-tag="devel">發展心理學</button>
+    <div class="hero-inner">
+      <div class="hero-kicker">
+        <div class="hero-kicker-line"></div>
+        <span class="hero-kicker-text">Center for Life &amp; Behavioral Sciences</span>
+      </div>
+
+      <h1 class="hero-title">
+        探索基因<br/>
+        與<em>心智</em>的<br/>
+        <span class="accent">交匯點</span>
+      </h1>
+
+      <p class="hero-sub">
+        結合表觀遺傳學與認知行為療法的跨領域研究，
+        透過科學化問卷與系統性文獻回顧，
+        深入理解環境、行為與心理之間的動態關係。
+      </p>
+
+      <div class="hero-cta">
+        <a href="#explore" class="btn-primary">進入研究 ↓</a>
+        <a href="Paper/literature/" class="btn-ghost">瀏覽文獻</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll to explore
     </div>
   </section>
 
-  <section class="lit-section">
-    <p class="lit-count">顯示 <span id="count">12</span> 篇文獻</p>
-    <div class="lit-grid" id="litGrid">
+  <hr class="divider"/>
+
+  <!-- ── CARDS ── -->
+  <section class="cards-section" id="explore">
+    <div class="section-head">
+      <div>
+        <p class="section-label">Research Directions</p>
+        <h2 class="section-title">四個研究入口</h2>
+      </div>
+      <span class="section-count">04 directions</span>
+    </div>
+
+    <div class="cards-grid">
 
       <!-- Epigenetics -->
-      <div class="lit-card" data-category="epi">
-        <div class="lit-card-top lit-card-top--epi"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--epi">表觀遺傳學</span>
-          <h3 class="lit-title">Epigenetic mechanisms in neurological and psychiatric disorders</h3>
-          <p class="lit-authors">Sweatt, J. D.</p>
-          <p class="lit-journal">Nature Reviews Neuroscience, 14(5), 321–334</p>
-          <p class="lit-abstract">探討表觀遺傳機制（包括 DNA 甲基化、組蛋白修飾）在神經與精神疾病中的作用，並回顧記憶形成的分子基礎。</p>
+      <a class="entry-card entry-card--epi" href="Paper/epigenetic.html">
+        <div class="card-watermark">01</div>
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-icon-wrap">🧬</div>
+            <span class="card-tag">Epigenetics</span>
+          </div>
+          <h3 class="card-title">表觀遺傳學<br/>健康評估問卷</h3>
+          <p class="card-desc">評估環境暴露、生活型態及壓力因子如何透過表觀遺傳機制影響基因表現，涵蓋飲食、睡眠與心理壓力等面向。</p>
+          <div class="card-footer">
+            <span class="card-meta">約 10–15 分鐘</span>
+            <div class="card-arrow">→</div>
+          </div>
         </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2013</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
-
-      <div class="lit-card" data-category="epi">
-        <div class="lit-card-top lit-card-top--epi"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--epi">表觀遺傳學</span>
-          <h3 class="lit-title">Diet-induced alterations in gut microflora contribute to lethal pulmonary damage in TLR2/TLR4-deficient mice</h3>
-          <p class="lit-authors">Vatanen, T. et al.</p>
-          <p class="lit-journal">Cell, 165(4), 842–853</p>
-          <p class="lit-abstract">研究飲食如何透過腸道微生物組影響免疫表觀遺傳標記，揭示環境因子與基因表現互動的新機制。</p>
-        </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2016</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
-
-      <div class="lit-card" data-category="epi">
-        <div class="lit-card-top lit-card-top--epi"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--epi">表觀遺傳學</span>
-          <h3 class="lit-title">Transgenerational epigenetic inheritance: myths and mechanisms</h3>
-          <p class="lit-authors">Heard, E., & Martienssen, R. A.</p>
-          <p class="lit-journal">Cell, 157(1), 95–109</p>
-          <p class="lit-abstract">系統性回顧跨代表觀遺傳遺傳的證據，區辨真正的表觀遺傳傳遞與其他非遺傳機制，提出評估框架。</p>
-        </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2014</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
+      </a>
 
       <!-- CBT -->
-      <div class="lit-card" data-category="cbt">
-        <div class="lit-card-top lit-card-top--cbt"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--cbt">認知行為療法</span>
-          <h3 class="lit-title">Cognitive therapy for depression: New perspectives</h3>
-          <p class="lit-authors">Beck, A. T.</p>
-          <p class="lit-journal">Treatment of Depression: Old Controversies and New Approaches</p>
-          <p class="lit-abstract">認知行為療法創始人回顧憂鬱症認知模型的理論基礎，並探討自動化思維、核心信念對情緒障礙的影響機制。</p>
+      <a class="entry-card entry-card--cbt" href="Paper/cbt.html">
+        <div class="card-watermark">02</div>
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-icon-wrap">🧠</div>
+            <span class="card-tag">CBT</span>
+          </div>
+          <h3 class="card-title">認知行為療法<br/>心理評估問卷</h3>
+          <p class="card-desc">透過標準化 CBT 架構，評估思考模式、情緒調節能力與行為反應，協助識別負向認知偏誤並提供個人化回饋。</p>
+          <div class="card-footer">
+            <span class="card-meta">約 8–12 分鐘</span>
+            <div class="card-arrow">→</div>
+          </div>
         </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">1983</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
+      </a>
 
-      <div class="lit-card" data-category="cbt">
-        <div class="lit-card-top lit-card-top--cbt"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--cbt">認知行為療法</span>
-          <h3 class="lit-title">Efficacy of cognitive-behavioral therapy for anxiety disorders: A meta-analysis</h3>
-          <p class="lit-authors">Hofmann, S. G., & Smits, J. A. J.</p>
-          <p class="lit-journal">Journal of Clinical Psychiatry, 69(4), 621–632</p>
-          <p class="lit-abstract">針對焦慮症 CBT 療效進行 meta 分析，納入 27 項隨機對照試驗，確認認知行為療法相較於安慰劑控制組的顯著療效。</p>
+      <!-- Literature -->
+      <a class="entry-card entry-card--lit" href="Paper/literature/">
+        <div class="card-watermark">03</div>
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-icon-wrap">📚</div>
+            <span class="card-tag">Literature</span>
+          </div>
+          <h3 class="card-title">重要文獻<br/>閱讀資料庫</h3>
+          <p class="card-desc">精選表觀遺傳學、認知行為療法、神經科學等領域核心文獻，依主題分類篩選，供研究參考使用。</p>
+          <div class="card-footer">
+            <span class="card-meta">12 篇精選文獻</span>
+            <div class="card-arrow">→</div>
+          </div>
         </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2008</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
+      </a>
 
-      <div class="lit-card" data-category="cbt">
-        <div class="lit-card-top lit-card-top--cbt"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--cbt">認知行為療法</span>
-          <h3 class="lit-title">Mindfulness-based cognitive therapy for depression: A new approach to preventing relapse</h3>
-          <p class="lit-authors">Segal, Z. V., Williams, J. M. G., & Teasdale, J. D.</p>
-          <p class="lit-journal">Guilford Press</p>
-          <p class="lit-abstract">正念認知療法（MBCT）的奠基之作，整合正念冥想與認知療法，對反覆發作的重度憂鬱症展現顯著的復發預防效果。</p>
+      <!-- Reflections -->
+      <a class="entry-card entry-card--ref" href="Paper/reflections/">
+        <div class="card-watermark">04</div>
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-icon-wrap">✍️</div>
+            <span class="card-tag">Reflections</span>
+          </div>
+          <h3 class="card-title">文獻閱讀<br/>感想與心得</h3>
+          <p class="card-desc">研究成員閱讀重要文獻後的深度思考與心得分享，記錄學術閱讀中的啟發、疑問與延伸思考。</p>
+          <div class="card-footer">
+            <span class="card-meta">6 篇心得文章</span>
+            <div class="card-arrow">→</div>
+          </div>
         </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2002</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
-
-      <!-- Neuroscience -->
-      <div class="lit-card" data-category="neuro">
-        <div class="lit-card-top lit-card-top--neuro"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--neuro">神經科學</span>
-          <h3 class="lit-title">The synaptic plasticity and memory hypothesis: encoding, storage and persistence</h3>
-          <p class="lit-authors">Bhatt, D. L. et al.</p>
-          <p class="lit-journal">Philosophical Transactions of the Royal Society B, 369</p>
-          <p class="lit-abstract">回顧突觸可塑性在記憶編碼、儲存與長期保存中的核心角色，連結分子生物學機制與行為層次的記憶研究。</p>
-        </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2014</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
-
-      <div class="lit-card" data-category="neuro">
-        <div class="lit-card-top lit-card-top--neuro"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--neuro">神經科學</span>
-          <h3 class="lit-title">Prefrontal cortex and the regulation of emotional behavior</h3>
-          <p class="lit-authors">Ochsner, K. N., & Gross, J. J.</p>
-          <p class="lit-journal">Trends in Cognitive Sciences, 9(6), 242–249</p>
-          <p class="lit-abstract">探討前額葉皮質在情緒調節中的神經機制，以神經影像學資料說明認知重評（cognitive reappraisal）的大腦基礎。</p>
-        </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2005</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
-
-      <!-- Stress & Health -->
-      <div class="lit-card" data-category="stress">
-        <div class="lit-card-top lit-card-top--stress"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--stress">壓力與健康</span>
-          <h3 class="lit-title">Psychological stress and the human immune system: A meta-analytic study of 30 years of inquiry</h3>
-          <p class="lit-authors">Segerstrom, S. C., & Miller, G. E.</p>
-          <p class="lit-journal">Psychological Bulletin, 130(4), 601–630</p>
-          <p class="lit-abstract">30 年文獻的 meta 分析，系統歸納心理壓力對免疫功能的影響模式，區辨急性、慢性壓力對免疫系統的不同效應。</p>
-        </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2004</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
-
-      <div class="lit-card" data-category="stress">
-        <div class="lit-card-top lit-card-top--stress"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--stress">壓力與健康</span>
-          <h3 class="lit-title">Early adversity and the developmental origins of disease</h3>
-          <p class="lit-authors">Shonkoff, J. P. et al.</p>
-          <p class="lit-journal">Neuroscience & Biobehavioral Reviews, 35(7), 1511–1522</p>
-          <p class="lit-abstract">探討早期逆境（童年貧困、創傷、忽視）如何透過生物嵌入機制（biological embedding）影響終身健康與發展軌跡。</p>
-        </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2011</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
-
-      <!-- Developmental -->
-      <div class="lit-card" data-category="devel">
-        <div class="lit-card-top lit-card-top--devel"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--devel">發展心理學</span>
-          <h3 class="lit-title">Attachment theory and psychoanalysis</h3>
-          <p class="lit-authors">Fonagy, P.</p>
-          <p class="lit-journal">Other Press</p>
-          <p class="lit-abstract">整合依附理論與精神分析，探討早期親子關係如何塑造心智化（mentalization）能力及情緒調節的發展基礎。</p>
-        </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2001</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
-
-      <div class="lit-card" data-category="devel">
-        <div class="lit-card-top lit-card-top--devel"></div>
-        <div class="lit-card-body">
-          <span class="lit-tag lit-tag--devel">發展心理學</span>
-          <h3 class="lit-title">The development of self-regulation across early childhood</h3>
-          <p class="lit-authors">Eisenberg, N. et al.</p>
-          <p class="lit-journal">Developmental Psychology, 41(1), 195–211</p>
-          <p class="lit-abstract">追蹤自我調節能力在幼兒期的發展軌跡，分析氣質、親職行為與神經成熟度對情緒調節發展的交互影響。</p>
-        </div>
-        <div class="lit-card-footer">
-          <span class="lit-year">2005</span>
-          <a href="#" class="lit-link">查看摘要 →</a>
-        </div>
-      </div>
+      </a>
 
     </div>
-    <div class="empty-state" id="emptyState">目前沒有符合此分類的文獻。</div>
   </section>
+
+  <hr class="divider"/>
+
+  <!-- ── STATS ── -->
+  <section class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-num">科學</div>
+      <div class="stat-label">循證研究基礎</div>
+      <div class="stat-desc">所有問卷皆依據國際學術文獻設計，具有良好的信效度與跨文化驗證。</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">保密</div>
+      <div class="stat-label">資料隱私保護</div>
+      <div class="stat-desc">您的回答將以匿名方式處理，僅用於學術研究目的，符合研究倫理規範。</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">回饋</div>
+      <div class="stat-label">即時個人化分析</div>
+      <div class="stat-desc">完成問卷後立即獲得專屬的分析報告，提供具體可行的個人化建議。</div>
+    </div>
+  </section>
+
 </main>
 
 <footer>
+  <span class="footer-logo">CLBS</span>
   <span>© 2025 心理與生命科學研究中心</span>
   <span>研究倫理委員會核准</span>
 </footer>
 
-<script>
-  const tagBtns = document.querySelectorAll('.tag-btn');
-  const cards = document.querySelectorAll('.lit-card');
-  const countEl = document.getElementById('count');
-  const emptyState = document.getElementById('emptyState');
-
-  tagBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tagBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const tag = btn.dataset.tag;
-      let visible = 0;
-      cards.forEach(card => {
-        const show = tag === 'all' || card.dataset.category === tag;
-        card.classList.toggle('hidden', !show);
-        if (show) visible++;
-      });
-      countEl.textContent = visible;
-      emptyState.classList.toggle('visible', visible === 0);
-    });
-  });
-</script>
 </body>
 </html>
