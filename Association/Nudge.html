@@ -1,1 +1,464 @@
 As
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nudge 反直覺詢問角度｜互動式教學頁面</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121933;
+      --panel-2: #1a2345;
+      --text: #eef2ff;
+      --muted: #b7c0e0;
+      --accent: #84cc16;
+      --accent-2: #38bdf8;
+      --warn: #fb7185;
+      --shadow: 0 14px 40px rgba(0,0,0,.25);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+      background: linear-gradient(180deg, #0b1020, #10172d 45%, #0f172a);
+      color: var(--text);
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(56,189,248,.14), rgba(132,204,22,.14));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 850px;
+      line-height: 1.7;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1.4fr .9fr .9fr auto auto;
+      gap: 12px;
+      margin: 20px 0 24px;
+    }
+
+    .input, select, button {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.1);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 15px;
+      font-size: 0.98rem;
+      outline: none;
+    }
+
+    button {
+      cursor: pointer;
+      transition: .2s ease;
+      font-weight: 700;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    .primary { background: linear-gradient(135deg, var(--accent), #65a30d); color: #111827; border: none; }
+    .ghost { background: var(--panel); }
+
+    .stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      font-size: .92rem;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)), var(--panel);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      font-size: .78rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(56,189,248,.12);
+      color: #c7f0ff;
+      border: 1px solid rgba(56,189,248,.18);
+    }
+
+    .badge.level-high { background: rgba(251,113,133,.12); color: #ffd0d8; border-color: rgba(251,113,133,.2); }
+    .badge.level-mid { background: rgba(250,204,21,.12); color: #fff0b3; border-color: rgba(250,204,21,.2); }
+    .badge.level-low { background: rgba(132,204,22,.12); color: #e7ffb9; border-color: rgba(132,204,22,.2); }
+
+    .question {
+      font-size: 1.16rem;
+      line-height: 1.6;
+      margin: 8px 0 14px;
+      font-weight: 800;
+    }
+
+    .meta {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: .95rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .mini {
+      width: auto;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: .9rem;
+    }
+
+    .panel {
+      margin-top: 14px;
+      padding: 14px;
+      background: var(--panel-2);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.06);
+      display: none;
+      line-height: 1.75;
+      color: #e6ebff;
+    }
+
+    .panel.show { display: block; }
+
+    .panel h4 {
+      margin: 0 0 8px;
+      color: #d5f7ff;
+      font-size: .96rem;
+    }
+
+    .note {
+      margin-top: 24px;
+      background: rgba(255,255,255,.04);
+      border: 1px dashed rgba(255,255,255,.14);
+      padding: 18px;
+      border-radius: 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--muted);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    @media (max-width: 900px) {
+      .toolbar { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .toolbar { grid-template-columns: 1fr; }
+      .wrap { padding: 16px; }
+      .hero { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Nudge 反直覺詢問角度</h1>
+      <div class="subtitle">
+        這是一份給運動保健、醫療心理與健康促進課程使用的互動式提問工具。重點不是背誦《Nudge》的結論，而是訓練學生從反直覺角度拆解行為：問題到底出在個人意志、情境設計、社會規範，還是預設選項？
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <input id="search" class="input" placeholder="搜尋關鍵字：例如 預設、運動、倫理、病人、依從性…" />
+      <select id="domain">
+        <option value="all">全部場域</option>
+        <option value="生活">生活</option>
+        <option value="工作">工作</option>
+        <option value="運動">運動</option>
+        <option value="醫療">醫療</option>
+      </select>
+      <select id="theme">
+        <option value="all">全部概念</option>
+        <option value="預設效應">預設效應</option>
+        <option value="框架效應">框架效應</option>
+        <option value="社會規範">社會規範</option>
+        <option value="選擇架構">選擇架構</option>
+        <option value="現在偏誤">現在偏誤</option>
+        <option value="倫理省思">倫理省思</option>
+      </select>
+      <button class="primary" id="shuffleBtn">隨機抽問</button>
+      <button class="ghost" id="resetBtn">重設</button>
+    </div>
+
+    <div class="stats" id="stats"></div>
+    <div class="grid" id="grid"></div>
+
+    <div class="note">
+      <strong>使用建議：</strong> 可作為課堂暖身、分組討論、OSCE式口頭提問、或論文導讀前的思辨引導。每一張卡都含有「反直覺提問」、「可能機制」、「生活/工作/運動延伸」與「教學追問」。
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        id: 1,
+        domain: '運動',
+        theme: '預設效應',
+        level: 'high',
+        question: '為什麼很多人不是不想運動，而是從來沒有被放進「預設會運動」的生活系統裡？',
+        mechanism: '預設效應、現狀偏誤。當「不做」是預設，人就傾向維持原狀。',
+        reflection: '把每週運動時間先寫入課表，比事後找時間更可能發生。',
+        teaching: '請學生設計一個大學生族群的「預設運動」校園方案。'
+      },
+      {
+        id: 2,
+        domain: '醫療',
+        theme: '框架效應',
+        level: 'mid',
+        question: '病人拒絕復健，真的是因為缺乏動機，還是因為我們把訊息框成了「痛苦與限制」？',
+        mechanism: '框架效應。相同內容以損失或獲益方式表達，接受度會不同。',
+        reflection: '把「避免退化」改成「恢復可做的功能」，依從性常更高。',
+        teaching: '請學生把同一份衛教內容各寫成損失框架與獲益框架。'
+      },
+      {
+        id: 3,
+        domain: '工作',
+        theme: '社會規範',
+        level: 'mid',
+        question: '員工久坐不動，問題真的是個人懶惰，還是辦公室文化把「一直坐著」塑造成專業形象？',
+        mechanism: '社會規範與從眾效應。人會配合群體中被視為正常的行為。',
+        reflection: '若主管公開進行步行會議，團隊活動量往往一起改變。',
+        teaching: '討論：健康職場政策若沒有主管示範，效果為何有限？'
+      },
+      {
+        id: 4,
+        domain: '生活',
+        theme: '選擇架構',
+        level: 'high',
+        question: '當一個人說自己「沒有自制力」，是不是其實在描述一個設計很差的環境？',
+        mechanism: '選擇架構。人的行為會隨可得性、顯著性與便利性改變。',
+        reflection: '零食放桌上、瑜伽墊收櫃內，會默默塑造完全不同的一天。',
+        teaching: '請學生回家拍一張自己房間，分析其中有哪些助推與反助推。'
+      },
+      {
+        id: 5,
+        domain: '運動',
+        theme: '現在偏誤',
+        level: 'high',
+        question: '我們常說運動有益健康，但為何「未來的健康」常輸給「現在的舒服」？',
+        mechanism: '現在偏誤與延宕折扣。短期感受通常壓過長期利益。',
+        reflection: '讓運動當下就有回饋，例如社交、音樂、遊戲化，比只強調遠期益處更有效。',
+        teaching: '設計一個讓運動「立刻有好處」的介入方案。'
+      },
+      {
+        id: 6,
+        domain: '醫療',
+        theme: '倫理省思',
+        level: 'high',
+        question: '當醫療人員用 nudge 提高病人依從性時，我們是在幫助病人，還是在替病人做決定？',
+        mechanism: '自由家長式主義的倫理張力：保留選擇自由，但設計方向性。',
+        reflection: '好的助推應透明、可退出、且符合當事人福祉。',
+        teaching: '請學生辯論：預設安排戒菸門診，是幫忙還是干預？'
+      },
+      {
+        id: 7,
+        domain: '生活',
+        theme: '社會規範',
+        level: 'low',
+        question: '為什麼減重常在個人層面失敗，卻在團體打卡時突然變得可行？',
+        mechanism: '社會比較、認同感、責任感讓行動更容易持續。',
+        reflection: '不是每個人都需要更多知識，有些人需要的是一個會回應他的群體。',
+        teaching: '讓學生回想自己最能持續的習慣，背後是否有社會支持？'
+      },
+      {
+        id: 8,
+        domain: '運動',
+        theme: '選擇架構',
+        level: 'mid',
+        question: '健身房使用率低，問題在會員意志力，還是在動線、光線、流程與第一步太難？',
+        mechanism: '摩擦成本與便利性主導啟動行為。',
+        reflection: '從停車、報到、更衣到器材指引，每一個卡點都會吃掉意願。',
+        teaching: '請學生以使用者旅程圖分析運動中心的「高摩擦點」。'
+      },
+      {
+        id: 9,
+        domain: '工作',
+        theme: '框架效應',
+        level: 'mid',
+        question: '主管說「不要犯錯」與說「做出可持續的小進步」，會不會塑造兩種完全不同的團隊健康文化？',
+        mechanism: '損失框架易帶來焦慮，成長框架較利於持續行為。',
+        reflection: '健康推廣若只靠恐嚇，短期可能有效，長期卻容易抗拒。',
+        teaching: '比較兩種職場健康宣導海報的心理效果。'
+      },
+      {
+        id: 10,
+        domain: '醫療',
+        theme: '預設效應',
+        level: 'mid',
+        question: '病人沒回診，是不是不是因為不重視，而是因為回診流程不是預設、提醒也不夠即時？',
+        mechanism: '預設與提醒結合，能減少遺忘與拖延。',
+        reflection: '「需要自己再約」與「已幫你排好可更改」會帶來巨大差異。',
+        teaching: '請學生重設一個慢性病追蹤流程。'
+      },
+      {
+        id: 11,
+        domain: '生活',
+        theme: '現在偏誤',
+        level: 'mid',
+        question: '拖延不是時間管理失敗，而是情緒管理失敗，這句話和 nudge 有什麼關係？',
+        mechanism: '人會逃避當下不舒服的任務，因此需要降低啟動門檻。',
+        reflection: '把任務切成第一步，比強調完成整件事更有效。',
+        teaching: '請學生為「每天伸展 10 分鐘」設計一個零阻力起點。'
+      },
+      {
+        id: 12,
+        domain: '運動',
+        theme: '倫理省思',
+        level: 'high',
+        question: '運動 App 的徽章、排行榜、連續天數，是在激勵人，還是在讓人被平台牽著走？',
+        mechanism: '數位助推混合了回饋、社會比較與損失厭惡。',
+        reflection: '助推有效不代表中立，設計者永遠在導向某種行為。',
+        teaching: '請學生評估一個運動 App：哪些設計是促進健康？哪些可能造成壓力？'
+      }
+    ];
+
+    const grid = document.getElementById('grid');
+    const search = document.getElementById('search');
+    const domain = document.getElementById('domain');
+    const theme = document.getElementById('theme');
+    const stats = document.getElementById('stats');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    function levelLabel(level) {
+      if (level === 'high') return '高反直覺';
+      if (level === 'mid') return '中反直覺';
+      return '入門';
+    }
+
+    function render(list) {
+      stats.innerHTML = `
+        <div class="pill">共 ${questions.length} 題</div>
+        <div class="pill">目前顯示 ${list.length} 題</div>
+        <div class="pill">主題：${theme.value === 'all' ? '全部' : theme.value}</div>
+        <div class="pill">場域：${domain.value === 'all' ? '全部' : domain.value}</div>
+      `;
+
+      if (!list.length) {
+        grid.innerHTML = '<div class="empty">找不到符合條件的提問。請換個關鍵字或篩選條件。</div>';
+        return;
+      }
+
+      grid.innerHTML = list.map(item => `
+        <article class="card">
+          <div class="badge-row">
+            <span class="badge">${item.domain}</span>
+            <span class="badge">${item.theme}</span>
+            <span class="badge level-${item.level}">${levelLabel(item.level)}</span>
+          </div>
+          <div class="question">${item.question}</div>
+          <div class="meta">這一題適合用來打開學生對「不是個人沒做好，而是環境怎麼設計」的思考。</div>
+          <div class="actions">
+            <button class="mini ghost" onclick="togglePanel(${item.id}, 'm')">看可能機制</button>
+            <button class="mini ghost" onclick="togglePanel(${item.id}, 'r')">看生活/工作/運動延伸</button>
+            <button class="mini primary" onclick="togglePanel(${item.id}, 't')">看教學追問</button>
+          </div>
+          <div id="m-${item.id}" class="panel"><h4>可能機制</h4>${item.mechanism}</div>
+          <div id="r-${item.id}" class="panel"><h4>延伸省思</h4>${item.reflection}</div>
+          <div id="t-${item.id}" class="panel"><h4>教學追問</h4>${item.teaching}</div>
+        </article>
+      `).join('');
+    }
+
+    function getFiltered() {
+      const q = search.value.trim().toLowerCase();
+      return questions.filter(item => {
+        const okDomain = domain.value === 'all' || item.domain === domain.value;
+        const okTheme = theme.value === 'all' || item.theme === theme.value;
+        const bag = [item.question, item.mechanism, item.reflection, item.teaching, item.domain, item.theme].join(' ').toLowerCase();
+        const okSearch = !q || bag.includes(q);
+        return okDomain && okTheme && okSearch;
+      });
+    }
+
+    function update() {
+      render(getFiltered());
+    }
+
+    window.togglePanel = function(id, type) {
+      const el = document.getElementById(`${type}-${id}`);
+      if (el) el.classList.toggle('show');
+    }
+
+    [search, domain, theme].forEach(el => el.addEventListener('input', update));
+    [domain, theme].forEach(el => el.addEventListener('change', update));
+
+    shuffleBtn.addEventListener('click', () => {
+      const list = getFiltered();
+      if (!list.length) return;
+      const pick = list[Math.floor(Math.random() * list.length)];
+      render([pick]);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      search.value = '';
+      domain.value = 'all';
+      theme.value = 'all';
+      render(questions);
+    });
+
+    render(questions);
+  </script>
+</body>
+</html>
