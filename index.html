@@ -1,97 +1,257 @@
-<!-- ================= INDEX.HTML ================= -->
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>用醫學讀懂人生</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-body{font-family:sans-serif;margin:0;background:#f5f0e8;color:#1a1614}
-.hero{padding:60px 20px;text-align:center}
-.hero h1{font-size:2.2rem}
-.hero p{max-width:600px;margin:20px auto;line-height:1.8}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:40px}
-.card{background:white;padding:20px;border-radius:10px;cursor:pointer;transition:.3s}
-.card:hover{transform:translateY(-5px)}
-.footer{text-align:center;padding:20px;font-size:0.9rem;color:#666}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f5f0e8;
+    --ink: #1a1614;
+    --ink-light: #5a4e47;
+    --ink-faint: #9a8f88;
+    --accent: #8b4513;
+    --accent-light: #d4956a;
+    --white: #ffffff;
+    --card-border: rgba(139,69,19,0.15);
+    --shadow: rgba(26,22,20,0.08);
+  }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    padding: 80px 24px 64px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% -10%, rgba(139,69,19,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--ink);
+    max-width: 680px;
+    margin: 0 auto 20px;
+  }
+
+  .hero h1 span {
+    color: var(--accent);
+  }
+
+  .hero p {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--ink-light);
+    max-width: 480px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+  }
+
+  .hero-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--accent-light);
+    margin: 0 auto;
+  }
+
+  /* ── Grid ── */
+  .grid-section {
+    padding: 48px 24px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 28px 22px 24px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent-light);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px var(--shadow);
+    border-color: var(--accent-light);
+  }
+
+  .card:hover::after {
+    transform: scaleX(1);
+  }
+
+  .card-icon {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .card-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  .card-sub {
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .card-arrow {
+    margin-top: auto;
+    font-size: 0.75rem;
+    color: var(--accent-light);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 32px 24px;
+    border-top: 1px solid var(--card-border);
+  }
+
+  footer p {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 60px 20px 48px; }
+  }
+
+  @media (max-width: 380px) {
+    .grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 
-<div class="hero">
-<h1>用醫學讀懂人生：從病理變化到生命規劃</h1>
-<p>你今天的生活，正在寫你未來的診斷書。<br>這裡不是課程，是一條看見未來的路。</p>
-</div>
+<section class="hero">
+  <p class="hero-eyebrow">Medical · Psychology · Future</p>
+  <h1>用醫學讀懂人生：<br>從<span>病理變化</span>到生命規劃</h1>
+  <p>你今天的生活，正在寫你未來的診斷書。<br>這裡不是課程，是一條看見未來的路。</p>
+  <div class="hero-divider"></div>
+</section>
 
-<div class="grid">
-<div class="card" onclick="location.href='journal.html'">📚 Journal Reading Club<br><small>從證據開始</small></div>
-<div class="card" onclick="location.href='report.html'">🧾 After Reading Club<br><small>輸出才會改變人生</small></div>
-<div class="card" onclick="location.href='psychology.html'">🧠 Psychological Club<br><small>理解行為</small></div>
-<div class="card" onclick="location.href='social.html'">🤝 Social Club<br><small>環境塑造你</small></div>
-<div class="card" onclick="location.href='future.html'">🔮 To See the Future Club<br><small>預測你的未來</small></div>
-</div>
+<main class="grid-section">
+  <p class="section-label">選擇你的入口</p>
+  <div class="grid">
 
-<div class="footer">你現在的選擇，正在形成未來的診斷</div>
+    <a class="card" href="journal.html">
+      <div class="card-icon">📚</div>
+      <div class="card-title">Journal Reading Club</div>
+      <div class="card-sub">從醫學證據出發，讀懂生活與疾病的關聯</div>
+      <div class="card-arrow">從證據開始 →</div>
+    </a>
 
-</body>
-</html>
+    <a class="card" href="report.html">
+      <div class="card-icon">🧾</div>
+      <div class="card-title">After Reading Club</div>
+      <div class="card-sub">輸出才能內化知識，讓學習真正改變人生</div>
+      <div class="card-arrow">輸出才會改變人生 →</div>
+    </a>
 
+    <a class="card" href="psychology.html">
+      <div class="card-icon">🧠</div>
+      <div class="card-title">Psychological Club</div>
+      <div class="card-sub">理解行為背後的心理機制，突破慣性</div>
+      <div class="card-arrow">理解行為 →</div>
+    </a>
 
-<!-- ================= JOURNAL.HTML ================= -->
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head><meta charset="UTF-8"><title>Journal Club</title></head>
-<body>
-<h1>Journal Reading Club</h1>
-<p>你讀的不是論文，是未來的可能性。</p>
-<a href="index.html">← 回首頁</a>
-</body>
-</html>
+    <a class="card" href="social.html">
+      <div class="card-icon">🤝</div>
+      <div class="card-title">Social Club</div>
+      <div class="card-sub">環境如何悄悄塑造你的每一個選擇</div>
+      <div class="card-arrow">環境塑造你 →</div>
+    </a>
 
+    <a class="card" href="future.html">
+      <div class="card-icon">🔮</div>
+      <div class="card-title">To See the Future Club</div>
+      <div class="card-sub">整合所有維度，預見並設計你想要的人生</div>
+      <div class="card-arrow">預測你的未來 →</div>
+    </a>
 
-<!-- ================= REPORT.HTML ================= -->
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head><meta charset="UTF-8"><title>Report Club</title></head>
-<body>
-<h1>After Reading Reporting Club</h1>
-<p>沒有輸出的知識，不會改變人生。</p>
-<a href="index.html">← 回首頁</a>
-</body>
-</html>
+  </div>
+</main>
 
+<footer>
+  <p>你現在的選擇，正在形成未來的診斷</p>
+</footer>
 
-<!-- ================= PSYCHOLOGY.HTML ================= -->
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head><meta charset="UTF-8"><title>Psychological Club</title></head>
-<body>
-<h1>Psychological Understand Club</h1>
-<p>病理之前，先有心理。</p>
-<a href="index.html">← 回首頁</a>
-</body>
-</html>
-
-
-<!-- ================= SOCIAL.HTML ================= -->
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head><meta charset="UTF-8"><title>Social Club</title></head>
-<body>
-<h1>Social Interaction Club</h1>
-<p>你的生活方式，是被環境塑造的。</p>
-<a href="index.html">← 回首頁</a>
-</body>
-</html>
-
-
-<!-- ================= FUTURE.HTML ================= -->
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head><meta charset="UTF-8"><title>Future Club</title></head>
-<body>
-<h1>To See the Future Club</h1>
-<p>未來不是預測，是累積的結果。</p>
-<a href="index.html">← 回首頁</a>
 </body>
 </html>
