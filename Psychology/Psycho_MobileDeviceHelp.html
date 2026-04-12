@@ -1,1 +1,257 @@
 
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>運動／健康行為習慣影響因素量表（反向題＋正向題混合版）</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #dbe3ee;
+      --accent: #2563eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 1080px;
+      margin: 32px auto;
+      padding: 0 16px 40px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+      margin-bottom: 18px;
+    }
+    h1, h2, h3 { margin-top: 0; }
+    h1 { font-size: 28px; margin-bottom: 8px; }
+    h2 { font-size: 22px; margin-bottom: 10px; }
+    h3 { font-size: 18px; margin-bottom: 8px; }
+    p, li { font-size: 15px; }
+    .muted { color: var(--muted); }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #eaf1ff;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .scale {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(80px, 1fr));
+      gap: 8px;
+      margin: 12px 0 6px;
+    }
+    .scale span {
+      text-align: center;
+      font-size: 13px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fafcff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 14px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th {
+      background: #f8fbff;
+      text-align: left;
+    }
+    .factor {
+      margin-top: 20px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+    }
+    .note {
+      background: #fff8e8;
+      border: 1px solid #f3dfaa;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+    }
+    .footer {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 16px;
+    }
+    @media (max-width: 760px) {
+      .scale { grid-template-columns: 1fr 1fr; }
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tr {
+        margin-bottom: 10px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      td { border: none; border-bottom: 1px solid var(--line); }
+      td:last-child { border-bottom: none; }
+      td::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card">
+      <div class="badge">研究用量表</div>
+      <h1>運動／健康行為習慣影響因素量表</h1>
+      <p class="muted">反向題＋正向題混合版（避免作答偏誤）｜適用對象：體育大學運動保健系碩士班學生</p>
+      <p>本量表用來了解影響個人形成或改變運動／健康行為習慣的因素。題目以日常情境表達，並混合正向題與反向題，以降低固定作答與社會期許偏差。</p>
+    </section>
+
+    <section class="card">
+      <h2>一、作答說明</h2>
+      <p>請依照你最近一段時間的實際情況作答，沒有標準答案。請直覺選出最符合你的選項。</p>
+      <div class="scale">
+        <span>1 非常不同意</span>
+        <span>2 不同意</span>
+        <span>3 普通</span>
+        <span>4 同意</span>
+        <span>5 非常同意</span>
+      </div>
+      <div class="note">提醒：題目中同時包含正向與反向敘述，請逐題閱讀後再作答，不要一路選同一欄。</div>
+    </section>
+
+    <section class="card">
+      <h2>二、量表構面與題目</h2>
+
+      <div class="factor">
+        <h3>構面一：動機耗損</h3>
+        <p class="muted">定義：當個人處於疲勞、壓力或心理負荷較高時，執行健康行為的意願容易下降。</p>
+        <table>
+          <thead>
+            <tr><th style="width: 80px;">題號</th><th>題目</th><th style="width: 140px;">題目方向</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="題號">M1</td><td data-label="題目">當我很累的時候，我通常會找理由不做原本安排的運動或健康行為。</td><td data-label="題目方向">反向題</td></tr>
+            <tr><td data-label="題號">M2</td><td data-label="題目">就算那天很忙、很累，我通常還是能把原本該做的健康行為完成。</td><td data-label="題目方向">正向題</td></tr>
+            <tr><td data-label="題號">M3</td><td data-label="題目">壓力一大時，我很容易把「今天先算了」當成不做的理由。</td><td data-label="題目方向">反向題</td></tr>
+            <tr><td data-label="題號">M4</td><td data-label="題目">即使最近事情很多，我還是能維持基本的運動或健康節奏。</td><td data-label="題目方向">正向題</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="factor">
+        <h3>構面二：情境阻力</h3>
+        <p class="muted">定義：當外在環境讓行為變得麻煩、不方便或成本變高時，習慣維持的難度會上升。</p>
+        <table>
+          <thead>
+            <tr><th style="width: 80px;">題號</th><th>題目</th><th style="width: 140px;">題目方向</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="題號">C1</td><td data-label="題目">只要天氣不好、場地不方便， 我通常就比較不會去做原本的運動安排。</td><td data-label="題目方向">反向題</td></tr>
+            <tr><td data-label="題號">C2</td><td data-label="題目">就算外在條件沒有很理想，我通常還是會想辦法完成原本的健康行為。</td><td data-label="題目方向">正向題</td></tr>
+            <tr><td data-label="題號">C3</td><td data-label="題目">只要行程一被打亂，我的運動或健康習慣就很容易跟著中斷。</td><td data-label="題目方向">反向題</td></tr>
+            <tr><td data-label="題號">C4</td><td data-label="題目">當環境不方便時，我通常還能快速找到替代做法。</td><td data-label="題目方向">正向題</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="factor">
+        <h3>構面三：即時誘惑</h3>
+        <p class="muted">定義：眼前更輕鬆、更有趣或更舒服的選項，容易讓人延後或放棄原本的健康行為。</p>
+        <table>
+          <thead>
+            <tr><th style="width: 80px;">題號</th><th>題目</th><th style="width: 140px;">題目方向</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="題號">T1</td><td data-label="題目">當有更輕鬆的選擇（例如滑手機、追劇、躺著休息）時，我通常會先選那個。</td><td data-label="題目方向">反向題</td></tr>
+            <tr><td data-label="題號">T2</td><td data-label="題目">就算當下有很多娛樂或休息的誘惑，我通常還是能先做完原本安排的健康行為。</td><td data-label="題目方向">正向題</td></tr>
+            <tr><td data-label="題號">T3</td><td data-label="題目">我常常跟自己說「等一下再做」，結果最後就沒有做。</td><td data-label="題目方向">反向題</td></tr>
+            <tr><td data-label="題號">T4</td><td data-label="題目">面對想偷懶或想拖延的時候，我多半能把自己拉回原本的計畫。</td><td data-label="題目方向">正向題</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="factor">
+        <h3>構面四：自我效能</h3>
+        <p class="muted">定義：個人對自己能否持續做到、遇到困難是否能撐住的信心。</p>
+        <table>
+          <thead>
+            <tr><th style="width: 80px;">題號</th><th>題目</th><th style="width: 140px;">題目方向</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="題號">S1</td><td data-label="題目">當內容變難、變累時，我會懷疑自己到底做不做得到。</td><td data-label="題目方向">反向題</td></tr>
+            <tr><td data-label="題號">S2</td><td data-label="題目">即使中間有中斷，我通常也有信心再把原本的健康習慣撿回來。</td><td data-label="題目方向">正向題</td></tr>
+            <tr><td data-label="題號">S3</td><td data-label="題目">我有時會因為怕自己做不好，乾脆不開始。</td><td data-label="題目方向">反向題</td></tr>
+            <tr><td data-label="題號">S4</td><td data-label="題目">只要我決定要做，我大多有把握能持續一段時間。</td><td data-label="題目方向">正向題</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="factor">
+        <h3>構面五：社會環境影響</h3>
+        <p class="muted">定義：他人的態度、陪伴、習慣與群體氛圍，會影響個人是否維持運動或健康行為。</p>
+        <table>
+          <thead>
+            <tr><th style="width: 80px;">題號</th><th>題目</th><th style="width: 140px;">題目方向</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="題號">E1</td><td data-label="題目">如果身邊的人都沒有在做，我自己也比較容易跟著放掉。</td><td data-label="題目方向">反向題</td></tr>
+            <tr><td data-label="題號">E2</td><td data-label="題目">就算周圍的人沒有一起做，我通常還是能照自己的安排進行。</td><td data-label="題目方向">正向題</td></tr>
+            <tr><td data-label="題號">E3</td><td data-label="題目">只要朋友臨時約別的事，我通常就會先放棄原本的運動或健康計畫。</td><td data-label="題目方向">反向題</td></tr>
+            <tr><td data-label="題號">E4</td><td data-label="題目">即使沒有人陪，我大多還是可以把該做的健康行為完成。</td><td data-label="題目方向">正向題</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>三、計分與研究使用說明</h2>
+      <ul>
+        <li>本量表共 20 題，採 5 點量表計分。</li>
+        <li>反向題保留原分數；正向題建議做反向計分，以便統一解釋方向。</li>
+        <li>正向題反向計分方式：1→5、2→4、3→3、4→2、5→1。</li>
+        <li>各構面可分別計算平均分數或總分。</li>
+        <li>分數越高，代表該因素越可能成為形成或改變運動／健康行為習慣時的阻礙。</li>
+      </ul>
+
+      <h3>正向題反向計分題號</h3>
+      <p>M2、M4、C2、C4、T2、T4、S2、S4、E2、E4</p>
+
+      <h3>建議研究流程</h3>
+      <ul>
+        <li>先進行專家效度審查，檢查題意與構面一致性。</li>
+        <li>小樣本前測後，檢查題目理解度與填答時間。</li>
+        <li>正式施測後可進行 Cronbach's α、探索性因素分析（EFA）與驗證性因素分析（CFA）。</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>四、研究者備註</h2>
+      <p>本版已混合反向題與正向題，目的在於降低受試者一路同方向作答的傾向，並減少社會期許造成的偏差。題目語言維持體育大學運動保健系碩士班學生容易理解的表達方式，適合做前測、正式問卷修訂，或作為碩士論文量表草案。</p>
+      <div class="footer">HTML 版本可直接另存、列印、貼到網頁系統，或再改成 Google 表單、Qualtrics、REDCap 等格式。</div>
+    </section>
+  </div>
+</body>
+</html>
