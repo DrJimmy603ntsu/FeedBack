@@ -1,1 +1,433 @@
 
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>反直覺問卷：T2D 行為改變與數位介入</title>
+  <style>
+    body {
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background: #f6f8fb;
+      color: #1f2937;
+      margin: 0;
+      padding: 0;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 36px;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+      color: #0f172a;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #475569;
+      margin-bottom: 28px;
+    }
+
+    .intro {
+      background: #eef6ff;
+      border-left: 5px solid #2563eb;
+      padding: 16px 18px;
+      border-radius: 10px;
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      margin-top: 36px;
+      margin-bottom: 10px;
+      color: #111827;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+
+    .question-card {
+      background: #fbfdff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 18px 0;
+    }
+
+    .question-number {
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 8px;
+    }
+
+    .question-text {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .scale {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .option {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+    }
+
+    .option:hover {
+      background: #e0ecff;
+      border-color: #3b82f6;
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    input[type="radio"]:checked + .option {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+      font-weight: 700;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 15px;
+      box-sizing: border-box;
+      margin-top: 10px;
+    }
+
+    .small-note {
+      color: #64748b;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .submit-row {
+      text-align: center;
+      margin-top: 34px;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+      margin: 0 6px;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .secondary-btn {
+      background: #64748b;
+    }
+
+    .secondary-btn:hover {
+      background: #475569;
+    }
+
+    .result-box {
+      display: none;
+      margin-top: 30px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin: 4px 6px 0 0;
+      font-weight: 600;
+    }
+
+    .footer-note {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    @media (max-width: 720px) {
+      .scale {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        margin: 16px;
+        padding: 20px;
+      }
+
+      .question-text {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>反直覺問卷：T2D 行為改變與數位介入</h1>
+    <div class="subtitle">
+      適用對象：體育大學碩士班學生｜用途：閱讀論文前，釐清原有觀念與偏見
+    </div>
+
+    <div class="intro">
+      <strong>作答說明：</strong><br>
+      這不是知識測驗，而是一份「信念揭露問卷」。請依照你此刻最真實的想法作答。  
+      題目刻意設計成帶有挑戰性，目的是讓你在閱讀研究前，先看見自己原本相信的是什麼。
+    </div>
+
+    <form id="surveyForm">
+      <div class="section-title">A. 反直覺判斷題</div>
+
+      <div class="question-card">
+        <div class="question-number">Q1</div>
+        <div class="question-text">第 2 型糖尿病控制不好，核心問題大多是病人不夠自律。</div>
+        <div class="scale">
+          <label><input type="radio" name="q1" value="5"><div class="option">非常同意</div></label>
+          <label><input type="radio" name="q1" value="4"><div class="option">同意</div></label>
+          <label><input type="radio" name="q1" value="3"><div class="option">普通</div></label>
+          <label><input type="radio" name="q1" value="2"><div class="option">不同意</div></label>
+          <label><input type="radio" name="q1" value="1"><div class="option">非常不同意</div></label>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">Q2</div>
+        <div class="question-text">只要運動處方設計得夠完整，病人的血糖控制通常就能顯著改善。</div>
+        <div class="scale">
+          <label><input type="radio" name="q2" value="5"><div class="option">非常同意</div></label>
+          <label><input type="radio" name="q2" value="4"><div class="option">同意</div></label>
+          <label><input type="radio" name="q2" value="3"><div class="option">普通</div></label>
+          <label><input type="radio" name="q2" value="2"><div class="option">不同意</div></label>
+          <label><input type="radio" name="q2" value="1"><div class="option">非常不同意</div></label>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">Q3</div>
+        <div class="question-text">只要病人知道正確飲食原則，他大多就會照做。</div>
+        <div class="scale">
+          <label><input type="radio" name="q3" value="5"><div class="option">非常同意</div></label>
+          <label><input type="radio" name="q3" value="4"><div class="option">同意</div></label>
+          <label><input type="radio" name="q3" value="3"><div class="option">普通</div></label>
+          <label><input type="radio" name="q3" value="2"><div class="option">不同意</div></label>
+          <label><input type="radio" name="q3" value="1"><div class="option">非常不同意</div></label>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">Q4</div>
+        <div class="question-text">數位健康 App 對慢性病的價值，大多只是提醒功能，臨床效果有限。</div>
+        <div class="scale">
+          <label><input type="radio" name="q4" value="5"><div class="option">非常同意</div></label>
+          <label><input type="radio" name="q4" value="4"><div class="option">同意</div></label>
+          <label><input type="radio" name="q4" value="3"><div class="option">普通</div></label>
+          <label><input type="radio" name="q4" value="2"><div class="option">不同意</div></label>
+          <label><input type="radio" name="q4" value="1"><div class="option">非常不同意</div></label>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">Q5</div>
+        <div class="question-text">如果一個介入沒有讓 HbA1c 顯著優於對照組，就代表這個介入其實沒用。</div>
+        <div class="scale">
+          <label><input type="radio" name="q5" value="5"><div class="option">非常同意</div></label>
+          <label><input type="radio" name="q5" value="4"><div class="option">同意</div></label>
+          <label><input type="radio" name="q5" value="3"><div class="option">普通</div></label>
+          <label><input type="radio" name="q5" value="2"><div class="option">不同意</div></label>
+          <label><input type="radio" name="q5" value="1"><div class="option">非常不同意</div></label>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">Q6</div>
+        <div class="question-text">體重只下降 0.8 kg、腰圍只少 1 cm，幾乎沒有什麼臨床意義。</div>
+        <div class="scale">
+          <label><input type="radio" name="q6" value="5"><div class="option">非常同意</div></label>
+          <label><input type="radio" name="q6" value="4"><div class="option">同意</div></label>
+          <label><input type="radio" name="q6" value="3"><div class="option">普通</div></label>
+          <label><input type="radio" name="q6" value="2"><div class="option">不同意</div></label>
+          <label><input type="radio" name="q6" value="1"><div class="option">非常不同意</div></label>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">Q7</div>
+        <div class="question-text">焦慮、社會支持、正向心態，和糖尿病控制沒有太直接的關係。</div>
+        <div class="scale">
+          <label><input type="radio" name="q7" value="5"><div class="option">非常同意</div></label>
+          <label><input type="radio" name="q7" value="4"><div class="option">同意</div></label>
+          <label><input type="radio" name="q7" value="3"><div class="option">普通</div></label>
+          <label><input type="radio" name="q7" value="2"><div class="option">不同意</div></label>
+          <label><input type="radio" name="q7" value="1"><div class="option">非常不同意</div></label>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">Q8</div>
+        <div class="question-text">真正有效的介入，重點不只是提供資訊，而是設計讓人做得到、做得下去的行為系統。</div>
+        <div class="scale">
+          <label><input type="radio" name="q8" value="1"><div class="option">非常不同意</div></label>
+          <label><input type="radio" name="q8" value="2"><div class="option">不同意</div></label>
+          <label><input type="radio" name="q8" value="3"><div class="option">普通</div></label>
+          <label><input type="radio" name="q8" value="4"><div class="option">同意</div></label>
+          <label><input type="radio" name="q8" value="5"><div class="option">非常同意</div></label>
+        </div>
+        <div class="small-note">此題為反向校正：若你同意，代表較接近行為改變觀點。</div>
+      </div>
+
+      <div class="section-title">B. 課前預測</div>
+
+      <div class="question-card">
+        <div class="question-number">Q9</div>
+        <div class="question-text">你直覺認為，這類 App 介入最可能明顯改善的是什麼？</div>
+        <textarea name="q9" rows="4" placeholder="例如：HbA1c、活動量、動機、飲食遵從、焦慮、社會支持..."></textarea>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">Q10</div>
+        <div class="question-text">如果病人「知道該做什麼卻做不到」，你認為最主要的原因是什麼？</div>
+        <textarea name="q10" rows="4" placeholder="請寫下你現在最真實的判斷。"></textarea>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">Q11</div>
+        <div class="question-text">身為體育專業背景的研究生，你覺得自己最可能高估哪一項？</div>
+        <input type="text" name="q11" placeholder="例如：運動處方效果、病人執行力、教育的力量、科技工具..." />
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">Q12</div>
+        <div class="question-text">請完成這句話：我目前最相信的是＿＿＿＿，因此我預期這篇研究會證明＿＿＿＿。</div>
+        <textarea name="q12" rows="4" placeholder="這題很重要，因為它會幫助你在讀完 paper 後回頭檢查自己。"></textarea>
+      </div>
+
+      <div class="submit-row">
+        <button type="button" onclick="analyzeSurvey()">送出並查看信念輪廓</button>
+        <button type="reset" class="secondary-btn" onclick="resetResult()">清除重填</button>
+      </div>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <h2>你的課前信念輪廓</h2>
+      <p id="scoreText"></p>
+      <div id="tagsArea"></div>
+      <p id="feedbackText" style="margin-top: 16px;"></p>
+    </div>
+
+    <div class="footer-note">
+      建議使用方式：先完成本問卷，再閱讀論文；讀完後回來檢查哪些原始信念被支持、哪些被推翻。
+    </div>
+  </div>
+
+  <script>
+    function getValue(name) {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      return checked ? parseInt(checked.value, 10) : null;
+    }
+
+    function analyzeSurvey() {
+      const required = ["q1","q2","q3","q4","q5","q6","q7","q8"];
+      for (let q of required) {
+        if (getValue(q) === null) {
+          alert("請先完成所有量表題（Q1-Q8）再查看結果。");
+          return;
+        }
+      }
+
+      const values = required.map(getValue);
+      const total = values.reduce((a, b) => a + b, 0);
+
+      const tagsArea = document.getElementById("tagsArea");
+      const scoreText = document.getElementById("scoreText");
+      const feedbackText = document.getElementById("feedbackText");
+      const resultBox = document.getElementById("resultBox");
+
+      tagsArea.innerHTML = "";
+
+      let tags = [];
+      let feedback = "";
+
+      // 分數範圍：8~40
+      // 高分代表較偏傳統直覺觀
+      if (total >= 30) {
+        tags.push("偏向傳統控制觀");
+        tags.push("較重視自律／知識");
+        tags.push("可能低估行為設計");
+        feedback = "你目前較傾向以『自律、知識、運動處方』理解 T2D 管理。閱讀這篇 paper 時，特別留意作者如何呈現：心理、社會支持、回饋機制、遊戲化與持續追蹤，如何共同影響結果。";
+      } else if (total >= 20) {
+        tags.push("處於轉換地帶");
+        tags.push("部分接受行為改變觀");
+        tags.push("值得檢查研究判讀習慣");
+        feedback = "你可能已經察覺慢性病管理不是單靠意志力，但對『什麼才算有效介入』仍可能停留在單一指標思維。閱讀時，請特別比較主要結果與次要結果之間的差異。";
+      } else {
+        tags.push("較接近行為改變觀");
+        tags.push("重視系統與支持");
+        tags.push("準備好讀機制而非只看結論");
+        feedback = "你目前較接近『系統性行為改變』的理解架構。閱讀時，可以進一步追問：這篇研究測試的到底是 App 本身，還是 App + 專業支持 + 社會支持 + 行為設計的整套介入？";
+      }
+
+      // 逐題標籤
+      if (getValue("q1") >= 4) tags.push("傾向歸因病人不自律");
+      if (getValue("q2") >= 4) tags.push("高估運動處方單獨效果");
+      if (getValue("q3") >= 4) tags.push("傾向知識即改變");
+      if (getValue("q4") >= 4) tags.push("低估數位工具潛力");
+      if (getValue("q5") >= 4) tags.push("單一主要結果導向");
+      if (getValue("q7") >= 4) tags.push("低估心理社會因素");
+      if (getValue("q8") >= 4) tags.push("理解行為系統重要性");
+
+      scoreText.innerHTML = `<strong>量表總分：</strong> ${total} / 40`;
+
+      tags.forEach(tag => {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = tag;
+        tagsArea.appendChild(span);
+      });
+
+      feedbackText.textContent = feedback;
+      resultBox.style.display = "block";
+      resultBox.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function resetResult() {
+      document.getElementById("resultBox").style.display = "none";
+      document.getElementById("tagsArea").innerHTML = "";
+      document.getElementById("scoreText").textContent = "";
+      document.getElementById("feedbackText").textContent = "";
+    }
+  </script>
+</body>
+</html>
