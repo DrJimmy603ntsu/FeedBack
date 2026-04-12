@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文獻閱讀反思問卷｜Blom et al. (2021)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --ink-light: #3d3d5c;
+    --paper: #f8f6f0;
+    --paper-warm: #efeae0;
+    --accent: #2e6b5e;
+    --accent-light: #4a9e8e;
+    --accent-muted: #d4ece8;
+    --gold: #c0922a;
+    --line: #ccc8bc;
+    --checked-bg: #2e6b5e;
+    --radio-checked: #c0922a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 300;
+    line-height: 1.85;
+    min-height: 100vh;
+  }
+  header {
+    background: var(--ink);
+    color: #fff;
+    padding: 2.6rem 2rem 2.2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(255,255,255,0.025) 18px, rgba(255,255,255,0.025) 19px);
+  }
+  header::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--gold) 100%);
+  }
+  .header-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .eyebrow { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 0.6rem; }
+  header h1 { font-family: 'DM Serif Display','Noto Serif TC',serif; font-size: clamp(1.35rem,3.5vw,1.9rem); font-weight: 400; line-height: 1.35; }
+  .header-meta { margin-top: 0.8rem; font-size: 0.78rem; color: rgba(255,255,255,0.5); display: flex; flex-wrap: wrap; gap: 1rem; }
+  .badge { display: inline-block; background: var(--accent); color: #fff; font-size: 0.67rem; letter-spacing: 0.1em; padding: 0.18em 0.7em; border-radius: 2px; margin-top: 0.9rem; }
+  main { max-width: 760px; margin: 0 auto; padding: 2rem 1.4rem 4rem; }
+  .citation { background: var(--paper-warm); border-left: 3px solid var(--gold); padding: 0.9rem 1.1rem; font-size: 0.78rem; color: var(--ink-light); line-height: 1.7; margin-bottom: 2rem; }
+  .citation a { color: var(--accent); }
+  .basic-info { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 1.2rem 1.4rem; margin-bottom: 2.2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width:520px){ .basic-info { grid-template-columns: 1fr; } }
+  .field label { display: block; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.35rem; }
+  .field input { width: 100%; border: none; border-bottom: 1.5px solid var(--line); background: transparent; font-family: 'Noto Sans TC',sans-serif; font-size: 0.88rem; color: var(--ink); padding: 0.25rem 0; outline: none; transition: border-color 0.2s; }
+  .field input:focus { border-color: var(--accent); }
+  .field.full { grid-column: 1/-1; }
+
+  /* Progress */
+  .progress-bar-wrap { position: sticky; top: 0; z-index: 10; background: rgba(248,246,240,0.93); backdrop-filter: blur(4px); padding: 0.5rem 0 0.4rem; margin-bottom: 1.6rem; }
+  .progress-label { font-size: 0.72rem; color: var(--ink-light); margin-bottom: 0.25rem; text-align: right; }
+  .progress-track { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold)); border-radius: 2px; transition: width 0.35s ease; width: 0%; }
+
+  /* Section */
+  section { margin-bottom: 2.6rem; }
+  .sec-header { display: flex; align-items: baseline; gap: 0.75rem; border-bottom: 2px solid var(--ink); padding-bottom: 0.5rem; margin-bottom: 0.45rem; }
+  .sec-num { font-family: 'DM Serif Display',serif; font-size: 1.55rem; color: var(--accent); line-height: 1; }
+  .sec-title { font-family: 'Noto Serif TC',serif; font-size: 1rem; font-weight: 600; }
+  .sec-desc { font-size: 0.82rem; color: var(--ink-light); margin-bottom: 1rem; line-height: 1.7; }
+  .q-block { margin-bottom: 1.45rem; }
+  .q-text { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.55rem; }
+  .q-note { font-size: 0.71rem; color: var(--ink-light); font-weight: 300; margin-left: 0.35rem; }
+
+  /* Radio */
+  .radio-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .radio-item { position: relative; }
+  .radio-item input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .radio-label { display: flex; align-items: center; gap: 0.6rem; cursor: pointer; background: #fff; border: 1.5px solid var(--line); border-radius: 3px; padding: 0.55rem 0.85rem; font-size: 0.85rem; color: var(--ink); transition: all 0.15s; user-select: none; }
+  .radio-label:hover { border-color: var(--accent); background: var(--accent-muted); }
+  .radio-item input:checked + .radio-label { background: var(--radio-checked); border-color: var(--radio-checked); color: #fff; font-weight: 500; }
+  .r-dot { width: 15px; height: 15px; border: 1.5px solid var(--line); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #fff; transition: all 0.15s; }
+  .radio-item input:checked + .radio-label .r-dot { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.5); }
+  .r-dot::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: transparent; transition: background 0.15s; }
+  .radio-item input:checked + .radio-label .r-dot::after { background: #fff; }
+
+  /* Checkbox */
+  .check-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px,1fr)); gap: 0.4rem; }
+  .check-item { position: relative; }
+  .check-item input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .check-label { display: flex; align-items: flex-start; gap: 0.6rem; cursor: pointer; background: #fff; border: 1.5px solid var(--line); border-radius: 3px; padding: 0.55rem 0.85rem; font-size: 0.85rem; color: var(--ink); transition: all 0.15s; min-height: 48px; user-select: none; }
+  .check-label:hover { border-color: var(--accent); background: var(--accent-muted); }
+  .check-item input:checked + .check-label { background: var(--checked-bg); border-color: var(--checked-bg); color: #fff; }
+  .c-box { width: 15px; height: 15px; border: 1.5px solid var(--line); border-radius: 2px; flex-shrink: 0; margin-top: 3px; display: flex; align-items: center; justify-content: center; background: #fff; transition: all 0.15s; font-size: 0.65rem; color: transparent; }
+  .check-item input:checked + .check-label .c-box { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.4); color: #fff; }
+
+  hr.div { border: none; border-top: 1px dashed var(--line); margin: 1.8rem 0; }
+
+  .action-bar { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; justify-content: space-between; margin-top: 1.8rem; }
+  .btn-primary { background: var(--accent); color: #fff; border: none; font-family: 'Noto Sans TC',sans-serif; font-size: 0.88rem; letter-spacing: 0.04em; padding: 0.72rem 1.8rem; border-radius: 3px; cursor: pointer; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--accent-light); }
+  .btn-secondary { background: transparent; color: var(--ink-light); border: 1px solid var(--line); font-family: 'Noto Sans TC',sans-serif; font-size: 0.82rem; padding: 0.68rem 1.3rem; border-radius: 3px; cursor: pointer; transition: all 0.2s; }
+  .btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
+
+  #summary-output { display: none; margin-top: 2.2rem; background: var(--ink); color: #fff; border-radius: 4px; padding: 1.8rem; position: relative; }
+  #summary-output::before { content: '個人反思摘要'; display: block; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 0.9rem; }
+  #summary-text { font-size: 0.85rem; line-height: 2; color: rgba(255,255,255,0.85); white-space: pre-wrap; }
+  .copy-btn { position: absolute; top: 1.1rem; right: 1.1rem; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.55); font-size: 0.72rem; padding: 0.25em 0.75em; border-radius: 2px; cursor: pointer; transition: all 0.2s; }
+  .copy-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="eyebrow">體育大學碩士班｜文獻閱讀反思問卷</div>
+    <h1>辦公室工作者身體活動與久坐行為<br>介入研究反思問卷</h1>
+    <div class="header-meta">
+      <span>📄 Blom et al. (2021)</span>
+      <span>🏫 BMC Public Health</span>
+      <span>🔬 叢集隨機對照試驗</span>
+    </div>
+    <div class="badge">自我效能 · 動機理論 · 行為改變 · 職場健康</div>
+  </div>
+</header>
+
+<main>
+
+  <div class="citation">
+    <strong>文獻：</strong>Blom, V. et al. (2021). The effects on self-efficacy, motivation and perceived barriers of an intervention targeting physical activity and sedentary behaviours in office workers: a cluster randomized control trial. <em>BMC Public Health, 21</em>(1048).
+    <a href="https://doi.org/10.1186/s12889-021-11083-2" target="_blank">https://doi.org/10.1186/s12889-021-11083-2</a>
+  </div>
+
+  <div class="basic-info">
+    <div class="field"><label>姓名（隱藏中間字）</label><input type="text" id="f-name" placeholder="例：王○明"></div>
+    <div class="field"><label>填寫日期</label><input type="date" id="f-date"></div>
+    <div class="field full"><label>所屬課程／教授</label><input type="text" id="f-course" value="成人病理學／陳進明"></div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-label" id="prog-label">答題進度：0 / 20</div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <!-- ══ 一 ══ -->
+  <section>
+    <div class="sec-header"><span class="sec-num">一</span><span class="sec-title">閱讀後的第一感受</span></div>
+    <p class="sec-desc">根據你閱讀完整篇文獻的整體感受回答。</p>
+
+    <div class="q-block">
+      <div class="q-text">Q1. 讀完這篇研究，你最直接的感想是？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q1" id="q1a"><label class="radio-label" for="q1a"><span class="r-dot"></span>「原來光叫人多動還不夠，心態改變才是關鍵！」</label></div>
+        <div class="radio-item"><input type="radio" name="q1" id="q1b"><label class="radio-label" for="q1b"><span class="r-dot"></span>「這讓我想到自己也常常一坐就是好幾個小時⋯⋯」</label></div>
+        <div class="radio-item"><input type="radio" name="q1" id="q1c"><label class="radio-label" for="q1c"><span class="r-dot"></span>「把CBT和MI用在運動介入，這個組合很有創意」</label></div>
+        <div class="radio-item"><input type="radio" name="q1" id="q1d"><label class="radio-label" for="q1d"><span class="r-dot"></span>「cRCT的研究設計很嚴謹，值得仔細學習」</label></div>
+        <div class="radio-item"><input type="radio" name="q1" id="q1e"><label class="radio-label" for="q1e"><span class="r-dot"></span>「很意外：介入6個月後行為沒顯著改變，但心理機制有變化」</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q2. 這篇研究最讓你印象深刻的發現是？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q2" id="q2a"><label class="radio-label" for="q2a"><span class="r-dot"></span>要積極參加至少3次諮詢，自我效能才會明顯提升</label></div>
+        <div class="radio-item"><input type="radio" name="q2" id="q2b"><label class="radio-label" for="q2b"><span class="r-dot"></span>身體活動組的自主動機顯著高於對照組</label></div>
+        <div class="radio-item"><input type="radio" name="q2" id="q2c"><label class="radio-label" for="q2c"><span class="r-dot"></span>減少久坐組對運動動機的影響反而不如身體活動組</label></div>
+        <div class="radio-item"><input type="radio" name="q2" id="q2d"><label class="radio-label" for="q2d"><span class="r-dot"></span>「站著很累」、「站著不舒服」等感知障礙沒有顯著改善</label></div>
+        <div class="radio-item"><input type="radio" name="q2" id="q2e"><label class="radio-label" for="q2e"><span class="r-dot"></span>心理機制（動機、自我效能）的改變可能先於行為的改變</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q3. 「自我效能」在這篇研究中是指？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q3" id="q3a"><label class="radio-label" for="q3a"><span class="r-dot"></span>「我覺得我做得到」——對自己能執行特定行為的信心</label></div>
+        <div class="radio-item"><input type="radio" name="q3" id="q3b"><label class="radio-label" for="q3b"><span class="r-dot"></span>「我非常想做」——對行為的強烈渴望與熱情</label></div>
+        <div class="radio-item"><input type="radio" name="q3" id="q3c"><label class="radio-label" for="q3c"><span class="r-dot"></span>「我知道這對健康有益」——對健康知識的了解程度</label></div>
+        <div class="radio-item"><input type="radio" name="q3" id="q3d"><label class="radio-label" for="q3d"><span class="r-dot"></span>「我有足夠時間」——對外在條件是否充足的評估</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q4. 「自主動機」最接近哪個日常情境？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q4" id="q4a"><label class="radio-label" for="q4a"><span class="r-dot"></span>「公司要求每天走5000步，不做會被罰」</label></div>
+        <div class="radio-item"><input type="radio" name="q4" id="q4b"><label class="radio-label" for="q4b"><span class="r-dot"></span>「我想趁孩子還小，以身作則養成他們愛運動的習慣」</label></div>
+        <div class="radio-item"><input type="radio" name="q4" id="q4c"><label class="radio-label" for="q4c"><span class="r-dot"></span>「同事都在健身，我不去感覺有點尷尬」</label></div>
+        <div class="radio-item"><input type="radio" name="q4" id="q4d"><label class="radio-label" for="q4d"><span class="r-dot"></span>「健身房剛好在打折，隨便去一下好了」</label></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- ══ 二 ══ -->
+  <section>
+    <div class="sec-header"><span class="sec-num">二</span><span class="sec-title">理解研究內容</span></div>
+    <p class="sec-desc">測試你對這篇文獻核心概念與研究設計的掌握程度。</p>
+
+    <div class="q-block">
+      <div class="q-text">Q5. 這篇研究的介入包含哪些心理諮詢技術？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q5" id="q5a"><label class="radio-label" for="q5a"><span class="r-dot"></span>認知行為治療（CBT）＋動機式晤談（MI）</label></div>
+        <div class="radio-item"><input type="radio" name="q5" id="q5b"><label class="radio-label" for="q5b"><span class="r-dot"></span>正念冥想（Mindfulness）＋接受與承諾治療（ACT）</label></div>
+        <div class="radio-item"><input type="radio" name="q5" id="q5c"><label class="radio-label" for="q5c"><span class="r-dot"></span>計步器回饋＋飲食日記紀錄</label></div>
+        <div class="radio-item"><input type="radio" name="q5" id="q5d"><label class="radio-label" for="q5d"><span class="r-dot"></span>群體競賽排名＋公開獎勵制度</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q6. 研究中辦公室工作者「最常見的久坐障礙」是哪幾項？<span class="q-note">（可複選）</span></div>
+      <div class="check-group">
+        <div class="check-item"><input type="checkbox" id="q6a"><label class="check-label" for="q6a"><span class="c-box">✓</span>坐著已是習慣，很難意識到</label></div>
+        <div class="check-item"><input type="checkbox" id="q6b"><label class="check-label" for="q6b"><span class="c-box">✓</span>站立讓人覺得疲累</label></div>
+        <div class="check-item"><input type="checkbox" id="q6c"><label class="check-label" for="q6c"><span class="c-box">✓</span>站著工作讓腳很不舒服</label></div>
+        <div class="check-item"><input type="checkbox" id="q6d"><label class="check-label" for="q6d"><span class="c-box">✓</span>公司沒有站立辦公桌可用</label></div>
+        <div class="check-item"><input type="checkbox" id="q6e"><label class="check-label" for="q6e"><span class="c-box">✓</span>工作太忙沒辦法起來走動</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q7. 「符合方案分析（Per Protocol）」和「完整樣本分析（Complete Cases）」的主要差別是？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q7" id="q7a"><label class="radio-label" for="q7a"><span class="r-dot"></span>前者只分析有認真參與（≥3次諮詢）的人，後者包含所有有前後測資料的人</label></div>
+        <div class="radio-item"><input type="radio" name="q7" id="q7b"><label class="radio-label" for="q7b"><span class="r-dot"></span>前者用實驗室客觀數據，後者使用問卷主觀填答</label></div>
+        <div class="radio-item"><input type="radio" name="q7" id="q7c"><label class="radio-label" for="q7c"><span class="r-dot"></span>前者只看6個月後的結果，後者追蹤更長時間</label></div>
+        <div class="radio-item"><input type="radio" name="q7" id="q7d"><label class="radio-label" for="q7d"><span class="r-dot"></span>兩者分析完全相同，只是樣本來自不同公司</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q8. 本研究採用「叢集隨機分組（cRCT）」而非個人隨機分組，主要原因是？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q8" id="q8a"><label class="radio-label" for="q8a"><span class="r-dot"></span>避免同一工作團隊中不同組別的人互相影響（污染效應）</label></div>
+        <div class="radio-item"><input type="radio" name="q8" id="q8b"><label class="radio-label" for="q8b"><span class="r-dot"></span>研究人員覺得按部門分組比較方便執行</label></div>
+        <div class="radio-item"><input type="radio" name="q8" id="q8c"><label class="radio-label" for="q8c"><span class="r-dot"></span>叢集分組可以讓樣本數更大</label></div>
+        <div class="radio-item"><input type="radio" name="q8" id="q8d"><label class="radio-label" for="q8d"><span class="r-dot"></span>公司規定員工不能個別被隨機分配</label></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- ══ 三 ══ -->
+  <section>
+    <div class="sec-header"><span class="sec-num">三</span><span class="sec-title">連結自身經驗</span></div>
+    <p class="sec-desc">把研究發現對應到你的日常生活與學習情境。</p>
+
+    <div class="q-block">
+      <div class="q-text">Q9. 你平常最常「一直坐著不動」的情況是？<span class="q-note">（可複選）</span></div>
+      <div class="check-group">
+        <div class="check-item"><input type="checkbox" id="q9a"><label class="check-label" for="q9a"><span class="c-box">✓</span>看論文或寫報告的時候</label></div>
+        <div class="check-item"><input type="checkbox" id="q9b"><label class="check-label" for="q9b"><span class="c-box">✓</span>上課聽講的時候</label></div>
+        <div class="check-item"><input type="checkbox" id="q9c"><label class="check-label" for="q9c"><span class="c-box">✓</span>滑手機或追劇的時候</label></div>
+        <div class="check-item"><input type="checkbox" id="q9d"><label class="check-label" for="q9d"><span class="c-box">✓</span>開會或討論的時候</label></div>
+        <div class="check-item"><input type="checkbox" id="q9e"><label class="check-label" for="q9e"><span class="c-box">✓</span>吃完飯懶得動的時候</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q10. 如果有人要幫你「提升運動自我效能」，哪個方法對你最有效？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q10" id="q10a"><label class="radio-label" for="q10a"><span class="r-dot"></span>從很小的目標開始，慢慢累積成就感</label></div>
+        <div class="radio-item"><input type="radio" name="q10" id="q10b"><label class="radio-label" for="q10b"><span class="r-dot"></span>看到朋友或同學做到了，讓我覺得「好像我也辦得到」</label></div>
+        <div class="radio-item"><input type="radio" name="q10" id="q10c"><label class="radio-label" for="q10c"><span class="r-dot"></span>教練或老師幫我記錄進步，定期給我具體正向回饋</label></div>
+        <div class="radio-item"><input type="radio" name="q10" id="q10d"><label class="radio-label" for="q10d"><span class="r-dot"></span>連結一個對我很重要的人生目標（如：健康陪孩子長大）</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q11. 你目前的「運動動機」比較偏向哪一類？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q11" id="q11a"><label class="radio-label" for="q11a"><span class="r-dot"></span>自主動機——真的享受運動，或是因為很重視健康這件事</label></div>
+        <div class="radio-item"><input type="radio" name="q11" id="q11b"><label class="radio-label" for="q11b"><span class="r-dot"></span>受控動機——有點逼自己，或是怕變胖、怕被人說懶</label></div>
+        <div class="radio-item"><input type="radio" name="q11" id="q11c"><label class="radio-label" for="q11c"><span class="r-dot"></span>完全無動機——知道該動但就是提不起勁</label></div>
+        <div class="radio-item"><input type="radio" name="q11" id="q11d"><label class="radio-label" for="q11d"><span class="r-dot"></span>混合型——有時自主、有時逼自己，狀況很不穩定</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q12. 本研究對象是「辦公室工作者」，你認為這些結果對「研究生族群」的適用性如何？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q12" id="q12a"><label class="radio-label" for="q12a"><span class="r-dot"></span>非常適用，研究生也是久坐高風險族群，心理機制類似</label></div>
+        <div class="radio-item"><input type="radio" name="q12" id="q12b"><label class="radio-label" for="q12b"><span class="r-dot"></span>部分適用，但研究生久坐的情境（讀書、做實驗）不太一樣</label></div>
+        <div class="radio-item"><input type="radio" name="q12" id="q12c"><label class="radio-label" for="q12c"><span class="r-dot"></span>不太適用，研究生的組織環境支持不如企業完善</label></div>
+        <div class="radio-item"><input type="radio" name="q12" id="q12d"><label class="radio-label" for="q12d"><span class="r-dot"></span>需要更多針對學生族群的研究才能判斷</label></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- ══ 四 ══ -->
+  <section>
+    <div class="sec-header"><span class="sec-num">四</span><span class="sec-title">對專業與研究的反思</span></div>
+    <p class="sec-desc">思考這篇文獻對你學術訓練、未來研究或工作的影響。</p>
+
+    <div class="q-block">
+      <div class="q-text">Q13. 從「成人病理學」角度來看，久坐行為最相關的健康風險是哪幾項？<span class="q-note">（可複選）</span></div>
+      <div class="check-group">
+        <div class="check-item"><input type="checkbox" id="q13a"><label class="check-label" for="q13a"><span class="c-box">✓</span>第二型糖尿病風險上升</label></div>
+        <div class="check-item"><input type="checkbox" id="q13b"><label class="check-label" for="q13b"><span class="c-box">✓</span>心血管疾病發生率增加</label></div>
+        <div class="check-item"><input type="checkbox" id="q13c"><label class="check-label" for="q13c"><span class="c-box">✓</span>肌肉骨骼退化加速</label></div>
+        <div class="check-item"><input type="checkbox" id="q13d"><label class="check-label" for="q13d"><span class="c-box">✓</span>憂鬱與焦慮症狀惡化</label></div>
+        <div class="check-item"><input type="checkbox" id="q13e"><label class="check-label" for="q13e"><span class="c-box">✓</span>全因死亡率顯著提升</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q14. 讀完這篇研究，你對「設計健康介入方案」最重要的新認識是？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q14" id="q14a"><label class="radio-label" for="q14a"><span class="r-dot"></span>光改善環境還不夠，動機和自我效能等心理機制才是核心</label></div>
+        <div class="radio-item"><input type="radio" name="q14" id="q14b"><label class="radio-label" for="q14b"><span class="r-dot"></span>個人、環境、組織三個層次要同時考慮</label></div>
+        <div class="radio-item"><input type="radio" name="q14" id="q14c"><label class="radio-label" for="q14c"><span class="r-dot"></span>「有沒有認真參與」比「介入設計本身」更影響效果</label></div>
+        <div class="radio-item"><input type="radio" name="q14" id="q14d"><label class="radio-label" for="q14d"><span class="r-dot"></span>行為改變需要時間，短期看行為結果可能太早下結論</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q15. 這篇研究最重要的限制，你認為是？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q15" id="q15a"><label class="radio-label" for="q15a"><span class="r-dot"></span>減少久坐組的退出率偏高，可能影響結果的代表性</label></div>
+        <div class="radio-item"><input type="radio" name="q15" id="q15b"><label class="radio-label" for="q15b"><span class="r-dot"></span>缺少針對「減少久坐動機」的專屬量表</label></div>
+        <div class="radio-item"><input type="radio" name="q15" id="q15c"><label class="radio-label" for="q15c"><span class="r-dot"></span>只追蹤6個月，無法看出長期效果</label></div>
+        <div class="radio-item"><input type="radio" name="q15" id="q15d"><label class="radio-label" for="q15d"><span class="r-dot"></span>以上都是重要限制</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q16. 如果你未來要做類似研究，最可能採用哪個做法？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q16" id="q16a"><label class="radio-label" for="q16a"><span class="r-dot"></span>引入BREQ-4量表，分別測量自主動機與受控動機</label></div>
+        <div class="radio-item"><input type="radio" name="q16" id="q16b"><label class="radio-label" for="q16b"><span class="r-dot"></span>設計叢集隨機分組，降低組間污染效應</label></div>
+        <div class="radio-item"><input type="radio" name="q16" id="q16c"><label class="radio-label" for="q16c"><span class="r-dot"></span>同時設計「增加活動」和「減少久坐」兩組進行比較</label></div>
+        <div class="radio-item"><input type="radio" name="q16" id="q16d"><label class="radio-label" for="q16d"><span class="r-dot"></span>用貝氏統計分析多層次資料，不依賴大樣本假設</label></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- ══ 五 ══ -->
+  <section>
+    <div class="sec-header"><span class="sec-num">五</span><span class="sec-title">未來行動意向</span></div>
+    <p class="sec-desc">讀完這篇文獻後，你打算怎麼做？</p>
+
+    <div class="q-block">
+      <div class="q-text">Q17. 讀完後你最想採取的行動是？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q17" id="q17a"><label class="radio-label" for="q17a"><span class="r-dot"></span>把「打斷久坐」加入每天作息，例如每小時起來動3分鐘</label></div>
+        <div class="radio-item"><input type="radio" name="q17" id="q17b"><label class="radio-label" for="q17b"><span class="r-dot"></span>找一個對我有情感意義的健康目標，讓自己更有動力</label></div>
+        <div class="radio-item"><input type="radio" name="q17" id="q17c"><label class="radio-label" for="q17c"><span class="r-dot"></span>延伸閱讀自我決定理論（SDT）或CBT的相關文獻</label></div>
+        <div class="radio-item"><input type="radio" name="q17" id="q17d"><label class="radio-label" for="q17d"><span class="r-dot"></span>思考如何將這個介入模式用在我的研究或未來工作</label></div>
+        <div class="radio-item"><input type="radio" name="q17" id="q17e"><label class="radio-label" for="q17e"><span class="r-dot"></span>跟同學或朋友分享這篇研究的重要發現</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q18. 要讓自己「減少久坐」，你認為最需要改善的是？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q18" id="q18a"><label class="radio-label" for="q18a"><span class="r-dot"></span>設定提醒系統（鬧鐘、App），強迫自己記得起來動</label></div>
+        <div class="radio-item"><input type="radio" name="q18" id="q18b"><label class="radio-label" for="q18b"><span class="r-dot"></span>找到「為什麼要動」的內在理由，不靠外力督促</label></div>
+        <div class="radio-item"><input type="radio" name="q18" id="q18c"><label class="radio-label" for="q18c"><span class="r-dot"></span>改善環境，例如有站立桌或更舒適的活動空間</label></div>
+        <div class="radio-item"><input type="radio" name="q18" id="q18d"><label class="radio-label" for="q18d"><span class="r-dot"></span>找同伴一起做，互相提醒和鼓勵</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q19. 如果你是學校或職場健康推廣人員，最優先採用哪種策略？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q19" id="q19a"><label class="radio-label" for="q19a"><span class="r-dot"></span>一對一諮詢，幫每個人找到個人化的改變動機</label></div>
+        <div class="radio-item"><input type="radio" name="q19" id="q19b"><label class="radio-label" for="q19b"><span class="r-dot"></span>設計小組挑戰活動，用團隊氛圍帶動個人改變</label></div>
+        <div class="radio-item"><input type="radio" name="q19" id="q19c"><label class="radio-label" for="q19c"><span class="r-dot"></span>先改善環境（提供站立桌、規劃步行路線）</label></div>
+        <div class="radio-item"><input type="radio" name="q19" id="q19d"><label class="radio-label" for="q19d"><span class="r-dot"></span>三管齊下：個人諮詢＋團體活動＋環境改造</label></div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">Q20. 整體而言，這篇文獻對你個人的啟發價值是？<span class="q-note">（單選）</span></div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="q20" id="q20a"><label class="radio-label" for="q20a"><span class="r-dot"></span>⭐⭐⭐⭐⭐　非常有啟發，直接影響我的想法或下一步計畫</label></div>
+        <div class="radio-item"><input type="radio" name="q20" id="q20b"><label class="radio-label" for="q20b"><span class="r-dot"></span>⭐⭐⭐⭐　有不少新想法，但需要時間慢慢消化</label></div>
+        <div class="radio-item"><input type="radio" name="q20" id="q20c"><label class="radio-label" for="q20c"><span class="r-dot"></span>⭐⭐⭐　有參考價值，但和我專業的連結還需要再想想</label></div>
+        <div class="radio-item"><input type="radio" name="q20" id="q20d"><label class="radio-label" for="q20d"><span class="r-dot"></span>⭐⭐　主題稍遠，但研究方法設計上值得學習</label></div>
+        <div class="radio-item"><input type="radio" name="q20" id="q20e"><label class="radio-label" for="q20e"><span class="r-dot"></span>⭐　目前看不出與我研究方向的直接關聯</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="action-bar">
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <button class="btn-primary" onclick="generateSummary()">📋 生成個人反思摘要</button>
+      <button class="btn-secondary" onclick="clearAll()">清除所有內容</button>
+    </div>
+    <span style="font-size:0.72rem;color:var(--ink-light);">資料僅存於本機，不上傳</span>
+  </div>
+
+  <div id="summary-output">
+    <button class="copy-btn" onclick="copySummary()">複製</button>
+    <pre id="summary-text"></pre>
+  </div>
+
+</main>
+
+<script>
+  document.getElementById('f-date').valueAsDate = new Date();
+
+  const TOTAL = 20;
+  const RADIO_NAMES = ['q1','q2','q3','q4','q5','q7','q8','q10','q11','q12','q14','q15','q16','q17','q18','q19','q20'];
+  const CB_GROUPS = [
+    { id: 'q6', ids: ['q6a','q6b','q6c','q6d','q6e'] },
+    { id: 'q9', ids: ['q9a','q9b','q9c','q9d','q9e'] },
+    { id: 'q13', ids: ['q13a','q13b','q13c','q13d','q13e'] },
+  ];
+
+  function updateProgress() {
+    let n = 0;
+    RADIO_NAMES.forEach(name => { if (document.querySelector(`input[name="${name}"]:checked`)) n++; });
+    CB_GROUPS.forEach(g => {
+      if (g.ids.some(id => { const el = document.getElementById(id); return el && el.checked; })) n++;
+    });
+    document.getElementById('prog-label').textContent = `答題進度：${n} / ${TOTAL}`;
+    document.getElementById('prog-fill').style.width = `${Math.round(n / TOTAL * 100)}%`;
+  }
+
+  document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(el => el.addEventListener('change', updateProgress));
+
+  function getRadio(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.nextElementSibling.textContent.trim().replace(/\s+/g,' ') : null;
+  }
+
+  function getChecks(ids) {
+    return ids.map(id => {
+      const el = document.getElementById(id);
+      return (el && el.checked) ? el.nextElementSibling.textContent.trim().replace(/\s+/g,' ') : null;
+    }).filter(Boolean);
+  }
+
+  function generateSummary() {
+    const name = document.getElementById('f-name').value.trim() || '（未填）';
+    const date = document.getElementById('f-date').value || '（未填）';
+    const course = document.getElementById('f-course').value.trim() || '（未填）';
+
+    const sections = [
+      { title: '【一、閱讀後的第一感受】', qs: [
+        { label: 'Q1 第一感想', val: getRadio('q1') },
+        { label: 'Q2 最印象深刻的發現', val: getRadio('q2') },
+        { label: 'Q3 自我效能的定義', val: getRadio('q3') },
+        { label: 'Q4 自主動機的情境', val: getRadio('q4') },
+      ]},
+      { title: '【二、理解研究內容】', qs: [
+        { label: 'Q5 介入使用的心理技術', val: getRadio('q5') },
+        { label: 'Q6 最常見的久坐障礙（複選）', val: getChecks(['q6a','q6b','q6c','q6d','q6e']).join('、') || null },
+        { label: 'Q7 Per Protocol vs. CC分析', val: getRadio('q7') },
+        { label: 'Q8 叢集隨機分組的原因', val: getRadio('q8') },
+      ]},
+      { title: '【三、連結自身經驗】', qs: [
+        { label: 'Q9 常見久坐情境（複選）', val: getChecks(['q9a','q9b','q9c','q9d','q9e']).join('、') || null },
+        { label: 'Q10 最有效的自我效能提升方式', val: getRadio('q10') },
+        { label: 'Q11 目前的運動動機類型', val: getRadio('q11') },
+        { label: 'Q12 研究結果對研究生族群的適用性', val: getRadio('q12') },
+      ]},
+      { title: '【四、對專業與研究的反思】', qs: [
+        { label: 'Q13 久坐相關健康風險（複選）', val: getChecks(['q13a','q13b','q13c','q13d','q13e']).join('、') || null },
+        { label: 'Q14 設計介入方案的新認識', val: getRadio('q14') },
+        { label: 'Q15 本研究最重要的限制', val: getRadio('q15') },
+        { label: 'Q16 未來研究可採用的做法', val: getRadio('q16') },
+      ]},
+      { title: '【五、未來行動意向】', qs: [
+        { label: 'Q17 讀後最想採取的行動', val: getRadio('q17') },
+        { label: 'Q18 減少久坐最需要改善的', val: getRadio('q18') },
+        { label: 'Q19 健康推廣優先策略', val: getRadio('q19') },
+        { label: 'Q20 對個人的啟發價值', val: getRadio('q20') },
+      ]},
+    ];
+
+    let out = '═══════════════════════════════════════\n';
+    out += '  文獻閱讀反思摘要\n';
+    out += '  Blom et al. (2021)  BMC Public Health\n';
+    out += '═══════════════════════════════════════\n';
+    out += `姓名：${name}　日期：${date}\n課程：${course}\n\n`;
+
+    sections.forEach(sec => {
+      const filled = sec.qs.filter(q => q.val);
+      if (!filled.length) return;
+      out += sec.title + '\n';
+      filled.forEach(q => { out += `  ${q.label}\n  → ${q.val}\n\n`; });
+    });
+
+    out += '───────────────────────────────────────\n';
+    out += 'DOI: https://doi.org/10.1186/s12889-021-11083-2\n';
+
+    document.getElementById('summary-text').textContent = out;
+    const el = document.getElementById('summary-output');
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function copySummary() {
+    navigator.clipboard.writeText(document.getElementById('summary-text').textContent).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = '已複製！';
+      setTimeout(() => btn.textContent = '複製', 2000);
+    });
+  }
+
+  function clearAll() {
+    if (!confirm('確定要清除所有作答內容？')) return;
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+    document.getElementById('f-name').value = '';
+    document.getElementById('f-date').valueAsDate = new Date();
+    document.getElementById('summary-output').style.display = 'none';
+    updateProgress();
+  }
+</script>
+</body>
+</html>
