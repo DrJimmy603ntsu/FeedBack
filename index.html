@@ -25,7 +25,6 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
-  /* ── Hero ── */
   .hero {
     position: relative;
     padding: 80px 24px 64px;
@@ -73,7 +72,6 @@
     background: var(--accent-light);
     margin: 0 auto;
   }
-  /* ── Grid ── */
   .grid-section {
     padding: 48px 24px 80px;
     max-width: 1100px;
@@ -93,7 +91,6 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
   }
-  /* ── Cards ── */
   .card {
     background: var(--white);
     border: 1px solid var(--card-border);
@@ -145,7 +142,6 @@
     font-weight: 500;
     letter-spacing: 0.05em;
   }
-  /* ── Expanded Cards ── */
   .card.card--expanded {
     gap: 0;
     cursor: default;
@@ -184,7 +180,6 @@
     color: var(--accent-light);
     flex-shrink: 0;
   }
-  /* ── Footer ── */
   footer {
     text-align: center;
     padding: 32px 24px;
@@ -215,7 +210,7 @@
 <main class="grid-section">
   <p class="section-label">選擇你的入口</p>
   <div class="grid">
-    <!-- Journal Reading Club — expanded with article sub-links -->
+    <!-- Journal Reading Club -->
     <div class="card card--expanded">
       <div class="card-icon">📚</div>
       <div class="card-title">Journal Reading Club</div>
@@ -238,17 +233,12 @@
         </a>
       </div>
     </div>
-    <!-- After Reading Club — expanded with sub-links -->
+    <!-- After Reading Club — 已刪除手機與螢幕時間，新增兩個糖尿病報告 -->
     <div class="card card--expanded">
       <div class="card-icon">🧾</div>
       <div class="card-title">After Reading Club</div>
       <div class="card-sub">輸出才能內化知識，讓學習真正改變人生</div>
       <div class="card-sub-links">
-        <a class="card-sub-link" href="reflections/MobileDeviceHelp.html">
-          <span class="card-sub-link-icon">📱</span>
-          <span class="card-sub-link-text">手機與螢幕時間</span>
-          <span class="card-sub-link-arrow">→</span>
-        </a>
         <a class="card-sub-link" href="reflections/cbt.html">
           <span class="card-sub-link-icon">🧠</span>
           <span class="card-sub-link-text">認知行為治療 CBT</span>
@@ -269,9 +259,19 @@
           <span class="card-sub-link-text">Report：Tirzepatide</span>
           <span class="card-sub-link-arrow">→</span>
         </a>
+        <a class="card-sub-link" href="Report/Report_MobileDeviceHelpLong.html">
+          <span class="card-sub-link-icon">📱</span>
+          <span class="card-sub-link-text">手機幫助糖尿病控制_完整版</span>
+          <span class="card-sub-link-arrow">→</span>
+        </a>
+        <a class="card-sub-link" href="Report/Report_MobileDeviceHelpShort.html">
+          <span class="card-sub-link-icon">📱</span>
+          <span class="card-sub-link-text">手機幫助糖尿病控制_精簡版</span>
+          <span class="card-sub-link-arrow">→</span>
+        </a>
       </div>
     </div>
-    <!-- Psychological Club — expanded with sub-links -->
+    <!-- Psychological Club -->
     <div class="card card--expanded">
       <div class="card-icon">🧠</div>
       <div class="card-title">Psychological Club</div>
