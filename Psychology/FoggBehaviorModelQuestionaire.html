@@ -1,1 +1,962 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>你其實怎麼過一天？反直覺生活習慣選擇題</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --subtext: #6b7280;
+      --primary: #2563eb;
+      --primary-soft: #dbeafe;
+      --border: #e5e7eb;
+      --success: #059669;
+      --danger: #dc2626;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
 
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .hero,
+    .card,
+    .result-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 22px 18px;
+      margin-top: 14px;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 1.6rem;
+      line-height: 1.3;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--subtext);
+      font-size: 0.98rem;
+    }
+
+    .info {
+      background: #eef4ff;
+      border: 1px solid #d8e7ff;
+      color: #1e3a8a;
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin-top: 14px;
+      font-size: 0.95rem;
+    }
+
+    .sticky-bar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(244, 247, 251, 0.92);
+      backdrop-filter: blur(8px);
+      padding: 10px 0 14px;
+    }
+
+    .progress-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.92rem;
+    }
+
+    .progress-label {
+      color: var(--subtext);
+    }
+
+    .progress-count {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #60a5fa, #2563eb);
+      transition: width 0.25s ease;
+    }
+
+    form {
+      margin-top: 12px;
+    }
+
+    .card {
+      padding: 16px;
+      margin-bottom: 14px;
+      border: 1px solid transparent;
+    }
+
+    .question-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .q-number {
+      flex: 0 0 auto;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-top: 2px;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: 1.04rem;
+      line-height: 1.5;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.78rem;
+      color: #374151;
+      background: #f3f4f6;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .option {
+      position: relative;
+    }
+
+    .option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .option label {
+      display: block;
+      padding: 13px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.96rem;
+    }
+
+    .option label:hover {
+      border-color: #93c5fd;
+      background: #f8fbff;
+    }
+
+    .option input[type="radio"]:checked + label {
+      border-color: var(--primary);
+      background: #eff6ff;
+      box-shadow: inset 0 0 0 1px var(--primary);
+    }
+
+    .actions {
+      position: sticky;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(244,247,251,1), rgba(244,247,251,0.88));
+      padding: 10px 0 20px;
+      margin-top: 6px;
+    }
+
+    .action-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    button {
+      appearance: none;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.05s ease, opacity 0.2s ease, background 0.2s ease;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .error {
+      margin-top: 12px;
+      color: var(--danger);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .result-page {
+      margin-top: 14px;
+      margin-bottom: 26px;
+    }
+
+    .result-card {
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .result-title {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+      line-height: 1.4;
+    }
+
+    .result-subtitle {
+      margin: 0;
+      color: var(--subtext);
+      font-size: 0.98rem;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 12px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .type-name {
+      margin: 12px 0 8px;
+      font-size: 1.3rem;
+      color: #111827;
+    }
+
+    .type-desc {
+      margin: 0;
+      color: #374151;
+    }
+
+    .score-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .score-item {
+      display: grid;
+      gap: 6px;
+    }
+
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.96rem;
+    }
+
+    .score-name {
+      font-weight: 700;
+    }
+
+    .score-value {
+      color: var(--subtext);
+      font-weight: 700;
+    }
+
+    .bar {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #93c5fd, #2563eb);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .tips {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .tips li {
+      margin-bottom: 8px;
+    }
+
+    .summary-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .mini-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: #fcfcfd;
+    }
+
+    .mini-card h4 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+    }
+
+    .mini-card p {
+      margin: 0;
+      color: #4b5563;
+      font-size: 0.95rem;
+    }
+
+    .footer-note {
+      color: var(--subtext);
+      font-size: 0.88rem;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 700px) {
+      .wrap {
+        padding: 24px;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      .card,
+      .result-card {
+        padding: 22px;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section id="formPage">
+      <div class="hero">
+        <h1>你其實怎麼過一天？</h1>
+        <p>反直覺生活習慣選擇題</p>
+        <div class="info">
+          這份問卷沒有對錯。請選擇「最像你平常會做的事」，不是你覺得應該選的答案。全部作答後，系統會自動計分，並產出你的習慣分析結果。
+        </div>
+      </div>
+
+      <div class="sticky-bar">
+        <div class="progress-card">
+          <div class="progress-top">
+            <span class="progress-label">作答進度</span>
+            <span class="progress-count"><span id="answeredCount">0</span> / 15</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <form id="quizForm">
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">1</div>
+            <div>
+              <h3 class="question-title">如果你今天想讓自己一整天都很沒效率，你最可能會：</h3>
+              <span class="tag">反向問題</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q1a" name="q1" value="A"><label for="q1a">A. 一直看時間但不開始做事</label></div>
+            <div class="option"><input type="radio" id="q1b" name="q1" value="B"><label for="q1b">B. 打開很多東西但都只做一點</label></div>
+            <div class="option"><input type="radio" id="q1c" name="q1" value="C"><label for="q1c">C. 一邊做事一邊滑手機</label></div>
+            <div class="option"><input type="radio" id="q1d" name="q1" value="D"><label for="q1d">D. 想著要做什麼但一直沒開始</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">2</div>
+            <div>
+              <h3 class="question-title">當你「等一下要開始做正事」時，你通常會先：</h3>
+              <span class="tag">拖延偽裝</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q2a" name="q2" value="A"><label for="q2a">A. 滑一下手機放鬆一下</label></div>
+            <div class="option"><input type="radio" id="q2b" name="q2" value="B"><label for="q2b">B. 整理一下桌面或環境</label></div>
+            <div class="option"><input type="radio" id="q2c" name="q2" value="C"><label for="q2c">C. 查一些「看起來有幫助」的東西</label></div>
+            <div class="option"><input type="radio" id="q2d" name="q2" value="D"><label for="q2d">D. 發呆或想事情</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">3</div>
+            <div>
+              <h3 class="question-title">如果手機突然壞掉一天，你最可能會：</h3>
+              <span class="tag">極端假設</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q3a" name="q3" value="A"><label for="q3a">A. 覺得不方便但還是做該做的事</label></div>
+            <div class="option"><input type="radio" id="q3b" name="q3" value="B"><label for="q3b">B. 找別的東西來打發時間（電腦、電視）</label></div>
+            <div class="option"><input type="radio" id="q3c" name="q3" value="C"><label for="q3c">C. 覺得有點空虛不知道要幹嘛</label></div>
+            <div class="option"><input type="radio" id="q3d" name="q3" value="D"><label for="q3d">D. 反而比較專心</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">4</div>
+            <div>
+              <h3 class="question-title">當你壓力很大時，你更像是：</h3>
+              <span class="tag">真實反應</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q4a" name="q4" value="A"><label for="q4a">A. 更拼命做事</label></div>
+            <div class="option"><input type="radio" id="q4b" name="q4" value="B"><label for="q4b">B. 假裝自己在做事</label></div>
+            <div class="option"><input type="radio" id="q4c" name="q4" value="C"><label for="q4c">C. 一直想但沒做</label></div>
+            <div class="option"><input type="radio" id="q4d" name="q4" value="D"><label for="q4d">D. 直接逃避（滑手機、睡覺）</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">5</div>
+            <div>
+              <h3 class="question-title">如果有人觀察你一整天，他最可能覺得你：</h3>
+              <span class="tag">角色轉換</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q5a" name="q5" value="A"><label for="q5a">A. 很忙但有點亂</label></div>
+            <div class="option"><input type="radio" id="q5b" name="q5" value="B"><label for="q5b">B. 看起來有在做事但不確定效率</label></div>
+            <div class="option"><input type="radio" id="q5c" name="q5" value="C"><label for="q5c">C. 常被分心</label></div>
+            <div class="option"><input type="radio" id="q5d" name="q5" value="D"><label for="q5d">D. 有時很專心、有時完全不行</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">6</div>
+            <div>
+              <h3 class="question-title">當你完成一件重要的事後，你通常會：</h3>
+              <span class="tag">行為模式</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q6a" name="q6" value="A"><label for="q6a">A. 立刻滑手機或放鬆</label></div>
+            <div class="option"><input type="radio" id="q6b" name="q6" value="B"><label for="q6b">B. 想再做一點但很快分心</label></div>
+            <div class="option"><input type="radio" id="q6c" name="q6" value="C"><label for="q6c">C. 覺得應該休息一下</label></div>
+            <div class="option"><input type="radio" id="q6d" name="q6" value="D"><label for="q6d">D. 檢查自己做得夠不夠好</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">7</div>
+            <div>
+              <h3 class="question-title">你最常拖延的時候，腦中比較像是：</h3>
+              <span class="tag">內在對話</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q7a" name="q7" value="A"><label for="q7a">A.「等一下再做還來得及」</label></div>
+            <div class="option"><input type="radio" id="q7b" name="q7" value="B"><label for="q7b">B.「先放鬆一下沒關係」</label></div>
+            <div class="option"><input type="radio" id="q7c" name="q7" value="C"><label for="q7c">C.「我等等應該會更有動力」</label></div>
+            <div class="option"><input type="radio" id="q7d" name="q7" value="D"><label for="q7d">D.「我現在不太想面對」</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">8</div>
+            <div>
+              <h3 class="question-title">如果把你的拖延行為放大 10 倍，你的生活會變成：</h3>
+              <span class="tag">刻意放大</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q8a" name="q8" value="A"><label for="q8a">A. 很多事情都壓到最後</label></div>
+            <div class="option"><input type="radio" id="q8b" name="q8" value="B"><label for="q8b">B. 一直很忙但沒完成什麼</label></div>
+            <div class="option"><input type="radio" id="q8c" name="q8" value="C"><label for="q8c">C. 常常覺得時間不夠</label></div>
+            <div class="option"><input type="radio" id="q8d" name="q8" value="D"><label for="q8d">D. 開始影響到重要事情</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">9</div>
+            <div>
+              <h3 class="question-title">當你說「我在休息」時，其實你通常在：</h3>
+              <span class="tag">概念混淆</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q9a" name="q9" value="A"><label for="q9a">A. 滑手機</label></div>
+            <div class="option"><input type="radio" id="q9b" name="q9" value="B"><label for="q9b">B. 看影片或追劇</label></div>
+            <div class="option"><input type="radio" id="q9c" name="q9" value="C"><label for="q9c">C. 發呆或躺著</label></div>
+            <div class="option"><input type="radio" id="q9d" name="q9" value="D"><label for="q9d">D. 一邊休息一邊焦慮</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">10</div>
+            <div>
+              <h3 class="question-title">如果你是老師，你會覺得這個學生（你）：</h3>
+              <span class="tag">角色轉換</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q10a" name="q10" value="A"><label for="q10a">A. 有潛力但不穩定</label></div>
+            <div class="option"><input type="radio" id="q10b" name="q10" value="B"><label for="q10b">B. 很容易分心</label></div>
+            <div class="option"><input type="radio" id="q10c" name="q10" value="C"><label for="q10c">C. 有時候很認真、有時候完全不行</label></div>
+            <div class="option"><input type="radio" id="q10d" name="q10" value="D"><label for="q10d">D. 知道該做什麼但沒做到</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">11</div>
+            <div>
+              <h3 class="question-title">你最常「等一下再做」的事情是：</h3>
+              <span class="tag">逃避來源</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q11a" name="q11" value="A"><label for="q11a">A. 開始讀書／工作</label></div>
+            <div class="option"><input type="radio" id="q11b" name="q11" value="B"><label for="q11b">B. 回訊息或處理事情</label></div>
+            <div class="option"><input type="radio" id="q11c" name="q11" value="C"><label for="q11c">C. 做需要專心的任務</label></div>
+            <div class="option"><input type="radio" id="q11d" name="q11" value="D"><label for="q11d">D. 面對麻煩或壓力</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">12</div>
+            <div>
+              <h3 class="question-title">如果未來的你回來看現在，你最可能被提醒：</h3>
+              <span class="tag">未來視角</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q12a" name="q12" value="A"><label for="q12a">A. 早點開始會比較輕鬆</label></div>
+            <div class="option"><input type="radio" id="q12b" name="q12" value="B"><label for="q12b">B. 不要一直分心</label></div>
+            <div class="option"><input type="radio" id="q12c" name="q12" value="C"><label for="q12c">C. 該做的事情不要拖</label></div>
+            <div class="option"><input type="radio" id="q12d" name="q12" value="D"><label for="q12d">D. 其實你可以做得更好</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">13</div>
+            <div>
+              <h3 class="question-title">如果要設計一個「讓你更容易拖延」的環境，你會選：</h3>
+              <span class="tag">反向設計</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q13a" name="q13" value="A"><label for="q13a">A. 手機隨時在旁邊</label></div>
+            <div class="option"><input type="radio" id="q13b" name="q13" value="B"><label for="q13b">B. 很多事情同時要做</label></div>
+            <div class="option"><input type="radio" id="q13c" name="q13" value="C"><label for="q13c">C. 沒有明確時間限制</label></div>
+            <div class="option"><input type="radio" id="q13d" name="q13" value="D"><label for="q13d">D. 可以隨時中斷</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">14</div>
+            <div>
+              <h3 class="question-title">當你一天結束時，你最常覺得：</h3>
+              <span class="tag">結果回顧</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q14a" name="q14" value="A"><label for="q14a">A. 很忙但不確定做了什麼</label></div>
+            <div class="option"><input type="radio" id="q14b" name="q14" value="B"><label for="q14b">B. 有做事但不夠多</label></div>
+            <div class="option"><input type="radio" id="q14c" name="q14" value="C"><label for="q14c">C. 時間過很快</label></div>
+            <div class="option"><input type="radio" id="q14d" name="q14" value="D"><label for="q14d">D. 有些事其實可以做得更好</label></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="question-head">
+            <div class="q-number">15</div>
+            <div>
+              <h3 class="question-title">如果只能改掉一個習慣，你最想改的是：</h3>
+              <span class="tag">自我覺察</span>
+            </div>
+          </div>
+          <div class="options">
+            <div class="option"><input type="radio" id="q15a" name="q15" value="A"><label for="q15a">A. 一直滑手機</label></div>
+            <div class="option"><input type="radio" id="q15b" name="q15" value="B"><label for="q15b">B. 拖到最後才做</label></div>
+            <div class="option"><input type="radio" id="q15c" name="q15" value="C"><label for="q15c">C. 容易分心</label></div>
+            <div class="option"><input type="radio" id="q15d" name="q15" value="D"><label for="q15d">D. 明知道但不去做</label></div>
+          </div>
+        </div>
+
+        <div id="errorBox" class="error hidden">還有題目未作答，請先完成全部 15 題。</div>
+
+        <div class="actions">
+          <div class="action-bar">
+            <button type="button" class="btn-secondary" id="resetBtn">重新作答</button>
+            <button type="submit" class="btn-primary">看分析結果</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section id="resultPage" class="result-page hidden">
+      <div class="result-card">
+        <h2 class="result-title">你的結果出來了</h2>
+        <p class="result-subtitle">這不是貼標籤，而是幫你看見自己比較常出現的習慣模式。</p>
+        <span class="badge" id="dominantBadge">主要類型</span>
+        <h3 class="type-name" id="dominantTypeName"></h3>
+        <p class="type-desc" id="dominantTypeDesc"></p>
+      </div>
+
+      <div class="result-card">
+        <h3 class="result-title" style="font-size:1.15rem;">四種習慣傾向分數</h3>
+        <div class="score-list">
+          <div class="score-item">
+            <div class="score-row">
+              <span class="score-name">忙亂行動型</span>
+              <span class="score-value" id="scoreAValue">0 分</span>
+            </div>
+            <div class="bar"><span id="barA"></span></div>
+          </div>
+          <div class="score-item">
+            <div class="score-row">
+              <span class="score-name">偽效率分心型</span>
+              <span class="score-value" id="scoreBValue">0 分</span>
+            </div>
+            <div class="bar"><span id="barB"></span></div>
+          </div>
+          <div class="score-item">
+            <div class="score-row">
+              <span class="score-name">拖延幻想型</span>
+              <span class="score-value" id="scoreCValue">0 分</span>
+            </div>
+            <div class="bar"><span id="barC"></span></div>
+          </div>
+          <div class="score-item">
+            <div class="score-row">
+              <span class="score-name">逃避壓力型</span>
+              <span class="score-value" id="scoreDValue">0 分</span>
+            </div>
+            <div class="bar"><span id="barD"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <h3 class="result-title" style="font-size:1.15rem;">你的分析摘要</h3>
+        <div class="summary-grid">
+          <div class="mini-card">
+            <h4>最常出現的模式</h4>
+            <p id="summaryMain"></p>
+          </div>
+          <div class="mini-card">
+            <h4>第二明顯的模式</h4>
+            <p id="summarySecond"></p>
+          </div>
+          <div class="mini-card">
+            <h4>你可能卡住的點</h4>
+            <p id="summaryBlock"></p>
+          </div>
+          <div class="mini-card">
+            <h4>你可以先做的小改變</h4>
+            <p id="summaryAction"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <h3 class="result-title" style="font-size:1.15rem;">給你的行動建議</h3>
+        <ul class="tips" id="tipsList"></ul>
+      </div>
+
+      <div class="actions">
+        <div class="action-bar">
+          <button type="button" class="btn-secondary" id="backBtn">回到問卷</button>
+          <button type="button" class="btn-primary" id="retryBtn">重新填一次</button>
+        </div>
+      </div>
+
+      <p class="footer-note">提示：這份結果適合用來做自我反思或班級討論，不建議當作正式心理測驗。</p>
+    </section>
+  </div>
+
+  <script>
+    const totalQuestions = 15;
+    const form = document.getElementById("quizForm");
+    const formPage = document.getElementById("formPage");
+    const resultPage = document.getElementById("resultPage");
+    const answeredCountEl = document.getElementById("answeredCount");
+    const progressFill = document.getElementById("progressFill");
+    const errorBox = document.getElementById("errorBox");
+    const resetBtn = document.getElementById("resetBtn");
+    const retryBtn = document.getElementById("retryBtn");
+    const backBtn = document.getElementById("backBtn");
+
+    const typeData = {
+      A: {
+        name: "忙亂行動型",
+        short: "你很容易進入「一直有動作，但不一定有進展」的狀態。",
+        desc: "你不是不做，而是常常同時做太多事，結果把注意力切碎。你看起來很忙，但真正完成的重要事情可能沒有想像中多。",
+        block: "你容易被「我有在動」這種感覺安慰，忽略了事情是否真的往前推進。",
+        action: "每天先只抓 1 件最重要的事，完成前不要切去別的任務。",
+        tips: [
+          "開始做事前，先寫下今天最重要的 1 件事。",
+          "把同時開啟的頁面、視窗、任務減到最少。",
+          "用 20 分鐘專注做一件事，再決定要不要切換。",
+          "每天結束時，不問自己忙不忙，只問自己完成了什麼。"
+        ]
+      },
+      B: {
+        name: "偽效率分心型",
+        short: "你很容易做很多『看起來有用』的事，但核心任務常被分散。",
+        desc: "你不是完全沒投入，而是常被整理、查資料、回訊息、切換任務這些事情拖走。你很努力，但容易把力氣花在周邊，而不是最重要的地方。",
+        block: "你容易把準備、整理、查資料，誤認成真正開始。",
+        action: "在每次開始前先問自己：『我現在做的，是核心任務還是周邊動作？』",
+        tips: [
+          "先完成核心任務的第一步，再整理環境或查資料。",
+          "把手機、通知、聊天視窗移出視線。",
+          "幫自己設『不能切換』的時間，例如 25 分鐘。",
+          "做完後回頭看：今天花最多時間的事，真的最重要嗎？"
+        ]
+      },
+      C: {
+        name: "拖延幻想型",
+        short: "你常在等待更好的時機、更好的狀態或更足夠的動力。",
+        desc: "你很常不是故意偷懶，而是會想著『等等比較有感覺再做』『之後效率會更好』。但時間常在等待中流失，事情也越拖越大。",
+        block: "你容易把『還沒準備好』當成暫時不開始的理由。",
+        action: "不要等感覺對，先做 5 分鐘。行動通常比動機更早出現。",
+        tips: [
+          "設定『先做 5 分鐘』而不是『一次做完』。",
+          "把任務拆成非常小的第一步，例如只打開檔案、只寫第一行。",
+          "不要問自己有沒有動力，改問自己現在能做哪一步。",
+          "把截止時間往前拉，避免最後集中爆量。"
+        ]
+      },
+      D: {
+        name: "逃避壓力型",
+        short: "當事情讓你有壓力、焦慮或不想面對時，你比較容易先避開。",
+        desc: "你不是不知道該做什麼，而是當任務連結到壓力、自我懷疑、害怕失敗或覺得太麻煩時，會先轉去休息、滑手機、睡覺或做別的事。",
+        block: "你真正想避開的，常常不是事情本身，而是做那件事時出現的不舒服感。",
+        action: "先承認『我現在不想面對』，再讓自己只做最小的一步，不要要求一次做到好。",
+        tips: [
+          "當你想逃開時，先命名現在的感受：焦慮、煩、怕做不好，還是累。",
+          "把任務切成小步驟，先完成最沒有壓力的一步。",
+          "把『我要做好』改成『我要先開始』。",
+          "遇到卡住時，找人一起開始，比一個人硬撐更有效。"
+        ]
+      }
+    };
+
+    function updateProgress() {
+      let answered = 0;
+      for (let i = 1; i <= totalQuestions; i++) {
+        if (document.querySelector(`input[name="q${i}"]:checked`)) {
+          answered++;
+        }
+      }
+      answeredCountEl.textContent = answered;
+      progressFill.style.width = `${(answered / totalQuestions) * 100}%`;
+      errorBox.classList.add("hidden");
+    }
+
+    form.addEventListener("change", updateProgress);
+
+    function getScores() {
+      const scores = { A: 0, B: 0, C: 0, D: 0 };
+
+      for (let i = 1; i <= totalQuestions; i++) {
+        const checked = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!checked) return null;
+        scores[checked.value]++;
+      }
+      return scores;
+    }
+
+    function getSortedTypes(scores) {
+      return Object.entries(scores).sort((a, b) => b[1] - a[1]);
+    }
+
+    function renderBars(scores) {
+      const maxScore = totalQuestions;
+      document.getElementById("scoreAValue").textContent = `${scores.A} 分`;
+      document.getElementById("scoreBValue").textContent = `${scores.B} 分`;
+      document.getElementById("scoreCValue").textContent = `${scores.C} 分`;
+      document.getElementById("scoreDValue").textContent = `${scores.D} 分`;
+
+      document.getElementById("barA").style.width = `${(scores.A / maxScore) * 100}%`;
+      document.getElementById("barB").style.width = `${(scores.B / maxScore) * 100}%`;
+      document.getElementById("barC").style.width = `${(scores.C / maxScore) * 100}%`;
+      document.getElementById("barD").style.width = `${(scores.D / maxScore) * 100}%`;
+    }
+
+    function buildMixedSummary(primaryKey, secondaryKey, scores) {
+      const primary = typeData[primaryKey];
+      const secondary = typeData[secondaryKey];
+      const primaryScore = scores[primaryKey];
+      const secondaryScore = scores[secondaryKey];
+
+      document.getElementById("dominantBadge").textContent = `主要類型：${primary.name}`;
+      document.getElementById("dominantTypeName").textContent = primary.name;
+      document.getElementById("dominantTypeDesc").textContent = primary.desc;
+
+      document.getElementById("summaryMain").textContent =
+        `${primary.short}（${primaryScore} 分）`;
+
+      document.getElementById("summarySecond").textContent =
+        `${secondary.name} 也很明顯（${secondaryScore} 分）。這表示你不只會以一種方式卡住，而是可能同時出現兩種習慣模式。`;
+
+      document.getElementById("summaryBlock").textContent =
+        primary.block;
+
+      document.getElementById("summaryAction").textContent =
+        primary.action;
+
+      const tipsList = document.getElementById("tipsList");
+      tipsList.innerHTML = "";
+
+      const mergedTips = [...primary.tips, `另外，你也可以留意自己的第二模式：${secondary.name}。當你卡住時，想想自己現在是「${secondary.short.replace("你", "")}」嗎？`];
+      mergedTips.forEach(tip => {
+        const li = document.createElement("li");
+        li.textContent = tip;
+        tipsList.appendChild(li);
+      });
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const scores = getScores();
+
+      if (!scores) {
+        errorBox.classList.remove("hidden");
+        errorBox.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+
+      const sorted = getSortedTypes(scores);
+      const primaryKey = sorted[0][0];
+      const secondaryKey = sorted[1][0];
+
+      renderBars(scores);
+      buildMixedSummary(primaryKey, secondaryKey, scores);
+
+      formPage.classList.add("hidden");
+      resultPage.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    resetBtn.addEventListener("click", function () {
+      form.reset();
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    retryBtn.addEventListener("click", function () {
+      form.reset();
+      updateProgress();
+      resultPage.classList.add("hidden");
+      formPage.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    backBtn.addEventListener("click", function () {
+      resultPage.classList.add("hidden");
+      formPage.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>
